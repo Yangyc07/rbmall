@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="rbmall:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="rbmall.war">
+      <element id="artifact" artifact-name="rbmall:war exploded" />
+    </root>
+  </artifact>
+</component>
