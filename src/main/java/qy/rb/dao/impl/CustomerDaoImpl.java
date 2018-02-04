@@ -106,7 +106,7 @@ public class CustomerDaoImpl implements CustomerDao {
             cstmt.setString(2,customerName);
             cstmt.setInt(3,pageEntity.getStartRow());
             cstmt.setInt(4,pageEntity.getPageSize());
-            rs = cstmt.executeQuery();
+
             while(rs.next()) {
                 Customer customer = new Customer();
                 customer.setCustomerID(rs.getString("CustomerID"));

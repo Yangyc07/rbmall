@@ -42,4 +42,17 @@ public interface CustomerAddressDao {
 	 */
 	public List<CustomerAddress> selectCustomerAddressList(PageEntity pageEntity);
 
+	/**
+	 * 通过客户ID或者收货人名称进行搜索
+	 * @param customerId
+	 * @param receiverName
+	 * @param pageEntity
+	 * @return
+	 */
+	public List<CustomerAddress> selectCustomerAddressListByIdOrName(String customerId,String receiverName,PageEntity pageEntity);
+
+
+
+
+
 }

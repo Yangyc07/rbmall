@@ -126,4 +126,48 @@ public class CustomerAddressDaoImpl implements CustomerAddressDao {
 		}
 		return customerAddressList;
 	}
+
+
+	@Override
+	public List<CustomerAddress> selectCustomerAddressListByIdOrName(String customerId,String receiverName,PageEntity pageEntity) {
+		List<CustomerAddress> customerAddressList = new ArrayList<>();
+
+		try {
+			conn = DBPoolUtil.getConnection();
+			cstmt = conn.prepareCall("{call spGetLimitCustomerListByIDOrName(?,?,?,?)}");
+			cstmt.setString(1,customerId);
+			cstmt.setString(2,receiverName);
+			cstmt.setInt(3,pageEntity.getStartRow());
+			cstmt.setInt(4,pageEntity.getPageSize());
+			rs = cstmt.executeQuery();
+
+			while(rs.next()) {
+				CustomerAddress customerAddress = new CustomerAddress();
+				customerAddress.setCustomerID(rs.getString("CustomerID"));
+				customerAddress.setReceiverProvince(rs.getString("ReceiverProvince"));
+				customerAddress.setReceiverCity(rs.getString("ReceiverCity"));
+				customerAddress.setReceiverDetailedAddress(rs.getString("ReceiverDistrict"));
+				customerAddress.setReceiverStreet(rs.getString("ReceiverStreet"));
+				customerAddress.setReceiverDetailedAddress(rs.getString("ReceiverDetailedAddress"));
+				customerAddress.setReceiverPostCode(rs.getString("ReceiverPostCode"));
+				customerAddress.setReceiverName(rs.getString("ReceiverName"));
+				customerAddress.setReceiverMobilePhone(rs.getString("ReceiverMobilePhone"));
+				customerAddress.setReceiverTelePhone(rs.getString("ReceiverTelePhone"));
+				customerAddress.setReceiverAddressFlag(rs.getInt("ReceiverAddressFlag"));
+				customerAddress.setCustomerReceivingAddressRemark(rs.getString("CustomerReceivingAddressRemark"));
+				customerAddressList.add(customerAddress);
+			}
+
+		} catch (SQLException ex) {
+			Logger.getLogger(CustomerAddressDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+		} finally {
+			DBPoolUtil.closeConnection(rs, cstmt, conn);
+		}
+		return customerAddressList;
+	}
+
+
+
+
+
 }
