@@ -97,8 +97,34 @@ public class CustomerDaoImpl implements CustomerDao {
     }
 
     @Override
-    public boolean selectCustomerById(String customerId) {
-        return false;
+    public List<Customer> selectCustomerListByIdOrName(String customerId,String customerName,PageEntity pageEntity) {
+        List<Customer> customerList = new ArrayList();
+        try {
+            conn = DBPoolUtil.getConnection();
+            cstmt = conn.prepareCall("{call spGetLimitCustomerListByIDOrName(?,?,?,?)}");
+            cstmt.setString(1,customerId);
+            cstmt.setString(2,customerName);
+            cstmt.setInt(3,pageEntity.getStartRow());
+            cstmt.setInt(4,pageEntity.getPageSize());
+            rs = cstmt.executeQuery();
+            while(rs.next()) {
+                Customer customer = new Customer();
+                customer.setCustomerID(rs.getString("CustomerID"));
+                customer.setCustomerName(rs.getString("CustomerName"));
+                customer.setCustomerLoginName(rs.getString("CustomerLoginName"));
+                customer.setCustomerPassword(rs.getString("CustomerPassword"));
+                customer.setCustomerPhone(rs.getString("CustomerPhone"));
+                customer.setCustomerPwdQuestion(rs.getString("CustomerPwdQuestion"));
+                customer.setCustomerPwdAnswer(rs.getString("CustomerPwdAnswer"));
+                customer.setCustomerRemark(rs.getString("CustomerRemark"));
+                customerList.add(customer);
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(CustomerDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            DBPoolUtil.closeConnection(rs, cstmt, conn);
+        }
+        return customerList;
     }
 
     @Override

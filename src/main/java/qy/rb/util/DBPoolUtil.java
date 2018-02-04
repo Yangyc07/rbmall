@@ -110,9 +110,8 @@ public final class DBPoolUtil {
 //                new Customer("2265", "223", "test","test","22","223","22","22");
         CustomerDao customerDao = new CustomerDaoImpl();
        // System.out.println(customerDao.checkLoginName("test"));
-        System.out.println(customerDao.selectQuestionByLoginName("hjy"));
-        System.out.println(customerDao.checkAnswer("hjy","yyy","yyy"));
-//        boolean ss = customerDao.insertCustomer(customer);
+        //System.out.println(customerDao.selectCustomerListByIdOrName(null,"%"));
+
 //        System.out.println(ss);
 //        List<Customer> customerList  = customerdao.selectCustomerList();
 //        for (Customer c :

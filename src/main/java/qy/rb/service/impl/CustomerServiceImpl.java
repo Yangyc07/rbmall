@@ -120,4 +120,25 @@ public class CustomerServiceImpl implements CustomerService {
 		return pagenation;
 	}
 
+	@Override
+	public Pagenation selectCustomerListByIdOrName(String customerId, String customerName, PageEntity pageEntity) {
+		if (StringUtils.isNoneBlank(customerId)) {
+			//customerId为空不执行
+			customerId = new StringBuilder().append(customerId).append("%").toString();
+		}
+		if (StringUtils.isNoneBlank(customerName)) {
+			//customerName为空不执行
+			customerName = new StringBuilder().append(customerName).append("%").toString();
+		}
+		//算出所需数据的总条数
+		int cout = customerDao.listCustomerDataRawCount(pageEntity);
+		//通过（当前页、每页显示条数、总条数） 初始化分页信息
+		Pagenation pagenation = new Pagenation(pageEntity.getPageSize(), pageEntity.getPageNum(), cout);
+		//通过上步骤算出要查询的 开始条数，边set 到分页入参实体类中。
+		pageEntity.setStartRow(pagenation.getStartRow());
+		//在查询 list 的时候，让传入的startRow 和 pageSize 作为limit 条件，添加至 sql。
+		pagenation.setList(customerDao.selectCustomerListByIdOrName(customerId, customerName, pageEntity));
+		return pagenation;
+	}
+
 }

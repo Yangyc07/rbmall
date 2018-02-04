@@ -30,11 +30,11 @@ public interface CustomerDao {
     public boolean updateCustomerPassword(String customerLoginName,String customerPassword);
 
     /**
-     * 通过ID找到顾客信息
+     *  通过ID或者名称进行搜索
      * @param customerId
      * @return
      */
-    public boolean selectCustomerById(String customerId);
+    public List<Customer> selectCustomerListByIdOrName(String customerId,String customerName,PageEntity pageEntity);
 
     /**
      * 查询客户清单

@@ -60,4 +60,9 @@ public interface CustomerService {
 
 
 	Pagenation selectCustomerList(PageEntity pageEntity);
+
+	Pagenation selectCustomerListByIdOrName(String customerId,String customerName,PageEntity pageEntity);
+
+
+
 }

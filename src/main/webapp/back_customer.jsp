@@ -103,14 +103,14 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <div class="row">
                 <div class="col-xs-7">
-                    <form class="form-inline">
+                    <form class="form-inline" method="post" action="<%= request.getContextPath()%>/manage/customer/search.do" name="searchForm" id="searchForm">
                         <div class="form-group">
-                            <label for="exampleInputName2">ID</label>
-                            <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+                            <label for="exampleInputID2">ID</label>
+                            <input type="text" class="form-control" id="exampleInputID2" name="customerId" placeholder="如：01">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputEmail2">名称</label>
-                            <input type="test" class="form-control" id="exampleInputEmail2" placeholder="如：张三">
+                            <label for="exampleInputName2">名称</label>
+                            <input type="test" class="form-control" id="exampleInputName2" name="customerIdName" placeholder="如：张三">
                         </div>
                         <button type="submit" class="btn btn-default">搜索</button>
                     </form>
@@ -160,15 +160,15 @@
                     <div class="container" id="pagenation" align="center">
                         <div class="pagination" >
                             <c:if test="${pagenation.pageCount >1}">
-                                <a href="<%= request.getContextPath()%>/manage/part_category/list.do?pageNum=${pagenation.prev }">上一页</a>
+                                <a href="<%= request.getContextPath()%>${pagenation.queryUrl }pageNum=${pagenation.prev }">上一页</a>
                             </c:if>
                             <c:forEach  items="${pagenation.showPages}" var="showPages">
-                                <a href="<%= request.getContextPath()%>/manage/part_category/list.do?pageNum=${showPages }">${showPages }</a>
+                                <a href="<%= request.getContextPath()%>${pagenation.queryUrl }pageNum=${showPages }">${showPages }</a>
                             </c:forEach>
 
 
                             <c:if test="${pagenation.pageCount >1 }">
-                                <a href="<%= request.getContextPath()%>/manage/part_category/list.do?pageNum=${pagenation.next }">下一页</a>
+                                <a href="<%= request.getContextPath()%>${pagenation.queryUrl }pageNum=${pagenation.next }">下一页</a>
                             </c:if>
                         </div>
                     </div>
