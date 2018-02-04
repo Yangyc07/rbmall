@@ -2,14 +2,18 @@ package qy.rb.controller.backend;
 
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import qy.rb.common.Const;
 import qy.rb.common.ResponseCode;
 import qy.rb.common.ServerResponse;
 import qy.rb.domain.Employee;
+import qy.rb.domain.PageEntity;
 import qy.rb.domain.PartCategory;
 import qy.rb.service.PartCategoryService;
+import qy.rb.util.Pagenation;
 
 
 import javax.annotation.Resource;
@@ -123,5 +127,17 @@ public class CategoryManageController {
             return ServerResponse.createByErrorMessage("无权限操作,需要普通员工权限");
         }
     }
+
+    @RequestMapping(value = "/list.do",method = RequestMethod.GET)
+    public String partCategoryList(ModelMap modelMap, @RequestParam(value = "pageNum", defaultValue = "1")int pageNum) {
+        PageEntity pageEntity = new PageEntity();
+        pageEntity.setPageNum(pageNum);
+        Pagenation pagenation = partCategoryService.selectPartCategoryList(pageEntity);
+        modelMap.addAttribute("pagenation", pagenation);
+        return "back_part_category";
+    }
+
+
+
 
 }

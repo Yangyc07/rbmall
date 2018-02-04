@@ -67,7 +67,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">某管理系统</a>
+            <a class="navbar-brand" href="#">睿邦管理系统</a>
         </div>
     </div>
 </nav>
@@ -81,7 +81,7 @@
                 <li class="active"><a href="#">首页</a></li>
             </ul>
             <ul class="nav nav-sidebar">
-                <li><a href="#">配件分类管理</a></li>
+                <li><a href="<%= request.getContextPath()%>/manage/part_category/list.do">配件分类管理</a></li>
                 <li><a href="#">配件基本信息管理</a></li>
             </ul>
             <ul class="nav nav-sidebar">
@@ -160,15 +160,15 @@
                     <div class="container" id="pagenation" align="center">
                         <div class="pagination" >
                             <c:if test="${pagenation.pageCount >1}">
-                                <a href="<%= request.getContextPath()%>/manage/customer/list.do?pageNum=${pagenation.prev }">上一页</a>
+                                <a href="<%= request.getContextPath()%>/manage/part_category/list.do?pageNum=${pagenation.prev }">上一页</a>
                             </c:if>
                             <c:forEach  items="${pagenation.showPages}" var="showPages">
-                                <a href="<%= request.getContextPath()%>/manage/customer/list.do?pageNum=${showPages }">${showPages }</a>
+                                <a href="<%= request.getContextPath()%>/manage/part_category/list.do?pageNum=${showPages }">${showPages }</a>
                             </c:forEach>
 
 
                             <c:if test="${pagenation.pageCount >1 }">
-                                <a href="<%= request.getContextPath()%>/manage/customer/list.do?pageNum=${pagenation.next }">下一页</a>
+                                <a href="<%= request.getContextPath()%>/manage/part_category/list.do?pageNum=${pagenation.next }">下一页</a>
                             </c:if>
                         </div>
                     </div>

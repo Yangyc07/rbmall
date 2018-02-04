@@ -1,6 +1,8 @@
 package qy.rb.dao;
 
 
+import qy.rb.domain.CustomerAddress;
+import qy.rb.domain.PageEntity;
 import qy.rb.domain.PartCategory;
 
 import java.util.List;
@@ -32,6 +34,22 @@ public interface PartCategoryDao {
 	 * @return partCategoryID
 	 */
 	List<PartCategory> selectCategoryChildrenByPartCategoryID(String partCategoryID);
+
+
+	/**
+	 * 返回零件类别信息条数
+	 * @param pageEntity
+	 * @return
+	 */
+	int listPartCategoryDataRawCount(PageEntity pageEntity);
+
+
+	/**
+	 * 查询零件类别息清单
+	 * @param pageEntity
+	 * @return
+	 */
+	public List<PartCategory> selectPartCategoryList(PageEntity pageEntity);
 
 
 }

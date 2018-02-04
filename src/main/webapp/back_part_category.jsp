@@ -129,18 +129,9 @@
                         <!--表头-->
                         <tr>
                             <th>选择</th>
-                            <th>客户ID</th>
-                            <th>省</th>
-                            <th>市</th>
-                            <th>县区</th>
-                            <th>街道</th>
-                            <th>详细地址</th>
-                            <th>邮编</th>
-                            <th>收货人姓名</th>
-                            <th>手机号码</th>
-                            <th>座机号码</th>
-                            <th>缺省地址标志</th>
-                            <th>客户收货地址备注</th>
+                            <th>零件类别编号</th>
+                            <th>零件类别名称</th>
+                            <th>零件类别备注</th>
                         </tr>
 
                         </thead>
@@ -149,20 +140,11 @@
                         <c:forEach var="c" items="${pagenation.list}" varStatus="status">
                             <tr>
                                 <td>
-                                    <input type="checkbox" name="checkcno" id="checkcno" value="${c.customerID}" />
+                                    <input type="checkbox" name="checkcno" id="checkcno" value="${c.partCategoryID}" />
                                 </td>
-                                <td>${c.customerID}</td>
-                                <td>${c.receiverProvince}</td>
-                                <td align="center">${c.receiverCity}</td>
-                                <td align="center">${c.receiverDistrict}</td>
-                                <td align="center">${c.receiverStreet}</td>
-                                <td align="center">${c.receiverDetailedAddress}</td>
-                                <td align="center">${c.receiverPostCode}</td>
-                                <td align="center">${c.receiverName}</td>
-                                <td align="center">${c.receiverMobilePhone}</td>
-                                <td align="center">${c.receiverTelePhone}</td>
-                                <td align="center">${c.receiverAddressFlag}</td>
-                                <td align="center">${c.customerReceivingAddressRemark}</td>
+                                <td>${c.partCategoryID}</td>
+                                <td>${c.partCategoryName}</td>
+                                <td align="center">${c.partCategoryRemark}</td>
                             </tr>
                         </c:forEach>
                         </tbody>
@@ -170,15 +152,15 @@
                     <div class="container" id="pagenation" align="center">
                         <div class="pagination" >
                             <c:if test="${pagenation.pageCount >1}">
-                                <a href="<%= request.getContextPath()%>/manage/receiver_address/list.dopageNum=${pagenation.prev }">上一页</a>
+                                <a href="<%= request.getContextPath()%>/manage/part_category/list.do?pageNum=${pagenation.prev }">上一页</a>
                             </c:if>
                             <c:forEach  items="${pagenation.showPages}" var="showPages">
-                                <a href="<%= request.getContextPath()%>/manage/receiver_address/list.dopageNum=${showPages }">${showPages }</a>
+                                <a href="<%= request.getContextPath()%>/manage/part_category/list.do?pageNum=${showPages }">${showPages }</a>
                             </c:forEach>
 
 
                             <c:if test="${pagenation.pageCount >1 }">
-                                <a href="<%= request.getContextPath()%>/manage/receiver_address/list.dopageNum=${pagenation.next }">下一页</a>
+                                <a href="<%= request.getContextPath()%>/manage/part_category/list.do?pageNum=${pagenation.next }">下一页</a>
                             </c:if>
                         </div>
                     </div>

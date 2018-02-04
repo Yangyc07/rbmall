@@ -1,7 +1,9 @@
 package qy.rb.service;
 
 import qy.rb.common.ServerResponse;
+import qy.rb.domain.PageEntity;
 import qy.rb.domain.PartCategory;
+import qy.rb.util.Pagenation;
 
 
 import java.util.List;
@@ -32,4 +34,8 @@ public interface PartCategoryService {
 	 * @return
 	 */
 	ServerResponse<List<PartCategory>> getChildrenPartCategory(String partCategoryId);
+
+	public Pagenation selectPartCategoryList(PageEntity pageEntity);
+
+
 }
