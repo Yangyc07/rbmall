@@ -125,13 +125,18 @@ public class CustomerServiceImpl implements CustomerService {
 		if (StringUtils.isNoneBlank(customerId)) {
 			//customerId为空不执行
 			customerId = new StringBuilder().append(customerId).append("%").toString();
+		} else {
+			customerId = null;
 		}
 		if (StringUtils.isNoneBlank(customerName)) {
 			//customerName为空不执行
 			customerName = new StringBuilder().append(customerName).append("%").toString();
+		} else {
+			customerName = null;
 		}
 		//算出所需数据的总条数
-		int cout = customerDao.listCustomerDataRawCount(pageEntity);
+		int cout = customerDao.listCustomerDataRawCount(customerId,customerName,pageEntity);
+
 		//通过（当前页、每页显示条数、总条数） 初始化分页信息
 		Pagenation pagenation = new Pagenation(pageEntity.getPageSize(), pageEntity.getPageNum(), cout);
 		//通过上步骤算出要查询的 开始条数，边set 到分页入参实体类中。

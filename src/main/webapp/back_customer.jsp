@@ -110,14 +110,14 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleInputName2">名称</label>
-                            <input type="test" class="form-control" id="exampleInputName2" name="customerIdName" placeholder="如：张三">
+                            <input type="test" class="form-control" id="exampleInputName2" name="customerName" placeholder="如：张三">
                         </div>
                         <button type="submit" class="btn btn-default">搜索</button>
                     </form>
                 </div>
                 <div class="col-xs-5">
-                    <input class="btn btn-default" type="button" value="添加">
-                    <input class="btn btn-default" type="submit" value="删除">
+                    <button class="btn btn-default" id="addCustomer" type="button">添加</button>
+                    <button class="btn btn-default" type="button">删除</button>
                 </div>
             </div>
             <br>
@@ -178,8 +178,74 @@
 
     </div>
 </div>
-<script src="js/jquery-1.11.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcss.com/layer/3.1.0/layer.js"></script>
+<script>
+
+
+    //弹出一个页面层
+    $('#addCustomer').on('click', function(){
+        layer.open({
+            type: 1,
+            area: ['800px', '600px'],
+            shadeClose: false, //点击遮罩关闭
+            content: '<form class="am-form">\n' +
+            '            <br>\n' +
+            '            <label for="username">姓名:</label>\n' +
+            '            <input type="text" name="name" id="name"/>\n' +
+            '            <br>\n' +
+            '            <label for="username">账号:</label>\n' +
+            '            <input type="text" name="username" id="username"/>\n' +
+            '            <br>\n' +
+            '            <label for="password">密码:</label>\n' +
+            '            <input type="password" name="password" id="password"/>\n' +
+            '            <br>\n' +
+            '            <label for="password">手机号:</label>\n' +
+            '            <input type="text" name="phone" id="phone"/>\n' +
+            '            <br>\n' +
+            '            <label for="password">找到密码问题:</label>\n' +
+            '            <input type="text" name="phone" id="question"/>\n' +
+            '            <br>\n' +
+            '            <label for="password">找到密码问题:</label>\n' +
+            '            <input type="text" name="phone" id="answer"/>\n' +
+            '            <div class="am-cf">\n' +
+            '                <input type="submit"  id="submit" value="注 册"  class="am-btn am-btn-primary am-btn-sm am-fl">\n' +
+            '            </div>\n' +
+            '        </form>'
+        });
+    });
+    $('body').on('click', '#submit', function(){
+        var name = $("#name").val();
+        var username = $("#username").val();
+        var password = $("#password").val();
+        var phone = $("#phone").val();
+        var question = $("#question").val();
+        var answer = $("#answer").val();
+        $.ajax({
+            url: "/customer/register.do",
+            data: {
+                CustomerName:name,
+                CustomerLoginName: username,
+                CustomerPassword: password,
+                CustomerPhone:phone,
+                CustomerPwdQuestion:question,
+                CustomerPwdAnswer:answer
+            },
+            success: function(data) {
+                //注册成功
+                if(data.status === 0) {
+                    layer.msg('注册成功！');//保存成功提示
+                } else {
+                    layer.msg("用户名已存在");
+                }
+                layer.closeAll('iframe');//关闭弹窗
+            }
+        });
+    });
+</script>
+
+
 </body>
 </html>
 

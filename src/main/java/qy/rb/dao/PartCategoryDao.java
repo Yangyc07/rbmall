@@ -52,4 +52,16 @@ public interface PartCategoryDao {
 	public List<PartCategory> selectPartCategoryList(PageEntity pageEntity);
 
 
+	/**
+	 * 通过零件类别编号或者零件类别名称进行搜索
+	 * @param partCategoryID
+	 * @param partCategoryName
+	 * @param pageEntity
+	 * @return
+	 */
+	public List<PartCategory> selectPartCategoryListByIdOrName(String partCategoryID,String partCategoryName,PageEntity pageEntity);
+
+
+
+
 }

@@ -11,6 +11,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class LoginController {
 
+    //返回顾客登录界面
+    @RequestMapping(value = "/to_test",method = RequestMethod.GET)
+    public String toTest() {
+        return "test";
+    }
+
+
 
     //返回顾客登录界面
     @RequestMapping(value = "/customer/to_login",method = RequestMethod.GET)

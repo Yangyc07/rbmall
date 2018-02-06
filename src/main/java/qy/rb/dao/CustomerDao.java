@@ -74,6 +74,13 @@ public interface CustomerDao {
      */
     boolean checkAnswer(String customerLoginName,String customerPwdQuestion,String customerPwdAnswer);
     /**
+     * 获得数据总条数 模糊查询
+     * @param pageEntity
+     * @return
+     */
+    int listCustomerDataRawCount(String customerId,String customerName,PageEntity pageEntity);
+
+    /**
      * 获得数据总条数
      * @param pageEntity
      * @return

@@ -80,4 +80,31 @@ public class PartCategoryDaoImpl implements PartCategoryDao {
 		}
 		return  partCategoryList;
 	}
+
+	@Override
+	public List<PartCategory> selectPartCategoryListByIdOrName(String partCategoryID, String partCategoryName, PageEntity pageEntity) {
+		List<PartCategory> partCategoryList = new ArrayList<>();
+
+		try {
+			conn = DBPoolUtil.getConnection();
+			cstmt = conn.prepareCall("{call spGetLimitPartCategoryListByIDOrName(?,?,?,?)}");
+			cstmt.setString(1,partCategoryID);
+			cstmt.setString(2,partCategoryName);
+			cstmt.setInt(3,pageEntity.getStartRow());
+			cstmt.setInt(4,pageEntity.getPageSize());
+
+			while(rs.next()) {
+				PartCategory partCategory = new PartCategory();
+				partCategory.setPartCategoryID(rs.getString("PartCategoryID"));
+				partCategory.setPartCategoryName(rs.getString("PartCategoryName"));
+				partCategory.setPartCategoryRemark(rs.getString("PartCategoryRemark"));
+				partCategoryList.add(partCategory);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBPoolUtil.closeConnection(rs, cstmt, conn);
+		}
+		return partCategoryList;
+	}
 }

@@ -41,6 +41,29 @@ public class Pagenation implements Serializable{
     private Object queryClass;//保存查询条件
     private String queryUrl;
 
+
+    @Override
+    public String toString() {
+        return "Pagenation{" +
+                "num=" + num +
+                ", size=" + size +
+                ", rowCount=" + rowCount +
+                ", list=" + list +
+                ", pageCount=" + pageCount +
+                ", startRow=" + startRow +
+                ", first=" + first +
+                ", last=" + last +
+                ", next=" + next +
+                ", prev=" + prev +
+                ", start=" + start +
+                ", end=" + end +
+                ", numCount=" + numCount +
+                ", showPages=" + showPages +
+                ", queryClass=" + queryClass +
+                ", queryUrl='" + queryUrl + '\'' +
+                '}';
+    }
+
     public Object getQueryClass() {
         return queryClass;
     }

@@ -62,7 +62,7 @@ public class CustomerController {
      * @param customerPwdAnswer
      * @return
      */
-    @RequestMapping(value = "register.do",method = RequestMethod.POST)
+    @RequestMapping(value = "register.do")
     @ResponseBody
     public ServerResponse<String> register(
             String customerName,String customerLoginName

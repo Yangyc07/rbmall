@@ -77,7 +77,7 @@
         var answer = $("#answer").val();
         $.ajax({
             type: "post",
-            url: "/user/register.do",
+            url: "/customer/register.do",
             data: {
                 CustomerName:name,
                 CustomerLoginName: username,

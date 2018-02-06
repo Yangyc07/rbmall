@@ -1,5 +1,6 @@
 package qy.rb.dao.impl;
 
+import com.sun.org.apache.xpath.internal.SourceTree;
 import org.springframework.stereotype.Repository;
 import qy.rb.common.Const;
 import qy.rb.dao.CustomerDao;
@@ -106,7 +107,7 @@ public class CustomerDaoImpl implements CustomerDao {
             cstmt.setString(2,customerName);
             cstmt.setInt(3,pageEntity.getStartRow());
             cstmt.setInt(4,pageEntity.getPageSize());
-
+            rs = cstmt.executeQuery();
             while(rs.next()) {
                 Customer customer = new Customer();
                 customer.setCustomerID(rs.getString("CustomerID"));
@@ -251,6 +252,25 @@ public class CustomerDaoImpl implements CustomerDao {
         return result;
     }
 
+    @Override
+    public int listCustomerDataRawCount(String customerId, String customerName, PageEntity pageEntity) {
+        conn = DBPoolUtil.getConnection();
+        int result = 0;
+
+        try {
+            cstmt = conn.prepareCall("{call spSelectCountByIDOrName(?,?,?)}");
+            cstmt.registerOutParameter(1,Types.INTEGER);
+            cstmt.setString(2,customerId);
+            cstmt.setString(3,customerName);
+            cstmt.execute();
+            result = cstmt.getInt(1);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            DBPoolUtil.closeConnection(conn);
+        }
+        return result;
+    }
 
 
     @Override

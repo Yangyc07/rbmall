@@ -134,7 +134,7 @@ public class CustomerAddressDaoImpl implements CustomerAddressDao {
 
 		try {
 			conn = DBPoolUtil.getConnection();
-			cstmt = conn.prepareCall("{call spGetLimitCustomerListByIDOrName(?,?,?,?)}");
+			cstmt = conn.prepareCall("{call spGetLimitCustomerAddressListByIDOrName(?,?,?,?)}");
 			cstmt.setString(1,customerId);
 			cstmt.setString(2,receiverName);
 			cstmt.setInt(3,pageEntity.getStartRow());
@@ -157,7 +157,6 @@ public class CustomerAddressDaoImpl implements CustomerAddressDao {
 				customerAddress.setCustomerReceivingAddressRemark(rs.getString("CustomerReceivingAddressRemark"));
 				customerAddressList.add(customerAddress);
 			}
-
 		} catch (SQLException ex) {
 			Logger.getLogger(CustomerAddressDaoImpl.class.getName()).log(Level.SEVERE, null, ex);
 		} finally {
@@ -165,9 +164,4 @@ public class CustomerAddressDaoImpl implements CustomerAddressDao {
 		}
 		return customerAddressList;
 	}
-
-
-
-
-
 }
