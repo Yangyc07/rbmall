@@ -183,39 +183,76 @@
 <script src="https://cdn.bootcss.com/layer/3.1.0/layer.js"></script>
 <script>
 
+    var html = '<form class="am-form">\n' +
+        '            <br>\n' +
+        '            <label for="username">姓名:</label>\n' +
+        '            <input type="text" name="name" id="name"/>\n' +
+        '            <br>\n' +
+        '            <label for="username">账号:</label>\n' +
+        '            <input type="text" name="username" id="username"/>\n' +
+        '            <br>\n' +
+        '            <label for="password">密码:</label>\n' +
+        '            <input type="password" name="password" id="password"/>\n' +
+        '            <br>\n' +
+        '            <label for="password">手机号:</label>\n' +
+        '            <input type="text" name="phone" id="phone"/>\n' +
+        '            <br>\n' +
+        '            <label for="password">找到密码问题:</label>\n' +
+        '            <input type="text" name="phone" id="question"/>\n' +
+        '            <br>\n' +
+        '            <label for="password">找到密码问题:</label>\n' +
+        '            <input type="text" name="phone" id="answer"/>\n' +
+        '            <div class="am-cf">\n' +
+        '                <input type="submit"  id="submit" value="注 册"  class="am-btn am-btn-primary am-btn-sm am-fl">\n' +
+        '            </div>\n' +
+        '        </form>'
 
     //弹出一个页面层
     $('#addCustomer').on('click', function(){
         layer.open({
             type: 1,
+            btn:['添加'],
+            yes: function (index,layero) {
+                console.log(123);
+                var name = $(layero).find("#name").val();
+                console.log(name);
+
+                var username = $(layero).find("#username").val();
+                var password = $(layero).find("#password").val();
+                var phone = $(layero).find("#phone").val();
+                var question = $(layero).find("#question").val();
+                var answer = $(layero).find("#answer").val();
+                $.ajax({
+                    url: "/customer/register.do",
+                    tranditional:true,
+                    contentType:"application/json",
+                    dataType:'json',
+                    data: {
+                        "customerName":name,
+                        "customerLoginName": $(layero).find("#username").val(),
+                        customerPassword: password,
+                        customerPhone:phone,
+                        customerPwdQuestion:question,
+                        customerPwdAnswer:answer
+                    },
+                    success: function(data) {
+                        //注册成功
+                        if(data.status === 0) {
+                            layer.msg('注册成功！');//保存成功提示
+                        } else {
+                            layer.msg("用户名已存在");
+                        }
+                        layer.closeAll('iframe');//关闭弹窗
+                    }
+                });
+            },
             area: ['800px', '600px'],
             shadeClose: false, //点击遮罩关闭
-            content: '<form class="am-form">\n' +
-            '            <br>\n' +
-            '            <label for="username">姓名:</label>\n' +
-            '            <input type="text" name="name" id="name"/>\n' +
-            '            <br>\n' +
-            '            <label for="username">账号:</label>\n' +
-            '            <input type="text" name="username" id="username"/>\n' +
-            '            <br>\n' +
-            '            <label for="password">密码:</label>\n' +
-            '            <input type="password" name="password" id="password"/>\n' +
-            '            <br>\n' +
-            '            <label for="password">手机号:</label>\n' +
-            '            <input type="text" name="phone" id="phone"/>\n' +
-            '            <br>\n' +
-            '            <label for="password">找到密码问题:</label>\n' +
-            '            <input type="text" name="phone" id="question"/>\n' +
-            '            <br>\n' +
-            '            <label for="password">找到密码问题:</label>\n' +
-            '            <input type="text" name="phone" id="answer"/>\n' +
-            '            <div class="am-cf">\n' +
-            '                <input type="submit"  id="submit" value="注 册"  class="am-btn am-btn-primary am-btn-sm am-fl">\n' +
-            '            </div>\n' +
-            '        </form>'
+            content: html
         });
     });
-    $('body').on('click', '#submit', function(){
+    $("#submit").click(function() {
+        console.log(123);
         var name = $("#name").val();
         var username = $("#username").val();
         var password = $("#password").val();

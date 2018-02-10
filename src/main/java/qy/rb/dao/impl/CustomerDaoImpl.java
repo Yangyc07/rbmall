@@ -159,6 +159,7 @@ public class CustomerDaoImpl implements CustomerDao {
 
     @Override
     public boolean checkLoginName(String customerLoginName) {
+        System.out.println(customerLoginName);
         boolean result = false;
         conn = DBPoolUtil.getConnection();
         try {

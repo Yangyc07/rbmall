@@ -75,7 +75,7 @@ public class CustomerController {
         customer.setCustomerPhone(customerPhone);
         customer.setCustomerPwdQuestion(customerPwdQuestion);
         customer.setCustomerPwdAnswer(customerPwdAnswer);
-
+        System.out.println(customer);
         return customerService.register(customer);
     }
 
