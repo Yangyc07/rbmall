@@ -6,6 +6,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import qy.rb.common.Const;
 import qy.rb.common.ResponseCode;
 import qy.rb.common.ServerResponse;
@@ -41,6 +42,7 @@ public class CategoryManageController {
      * @return
      */
     @RequestMapping("add_part_category.do")
+    @ResponseBody
     public ServerResponse addCategory(
             HttpSession session,
             String partCategoryID,
@@ -51,7 +53,7 @@ public class CategoryManageController {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录,请登录");
         }
         //校验一下是否是普通员工
-        if (Const.CURRENT_EMPLOYEE.equals(employee.getEmployeeType())) {
+        if (Const.EmployeeRole.EMPLOYEEROLE_ORDINARY_CUSTOMER.equals(employee.getEmployeeType())) {
             //是普通员工
             //增加处理分类的逻辑
             PartCategory partCategory = new PartCategory(partCategoryID, partCategoryName, partCategoryRemark);
@@ -69,13 +71,14 @@ public class CategoryManageController {
      * @return
      */
     @RequestMapping("set_part_category_name.do")
+    @ResponseBody
     public ServerResponse setCategoryName(HttpSession session, String partcategoryId, String partcategoryName) {
         Employee employee = (Employee) session.getAttribute(Const.CURRENT_EMPLOYEE);
         if (employee == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录,请登录");
         }
         //校验一下是否是普通员工
-        if (Const.CURRENT_EMPLOYEE.equals(employee.getEmployeeType())) {
+        if (Const.EmployeeRole.EMPLOYEEROLE_ORDINARY_CUSTOMER.equals(employee.getEmployeeType())) {
             //是普通员工
             //增加处理的逻辑
             return partCategoryService.updatePartCategoryName(partcategoryId,partcategoryName);
@@ -91,13 +94,14 @@ public class CategoryManageController {
      * @return
      */
     @RequestMapping("get_part_category.do")
+    @ResponseBody
     public ServerResponse getChildrenParallelCategory(HttpSession session, @RequestParam(value = "categoryId", defaultValue = "0") String partCategoryId) {
         Employee employee = (Employee) session.getAttribute(Const.CURRENT_EMPLOYEE);
         if (employee == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录,请登录");
         }
         //校验一下是否是普通员工
-        if (Const.CURRENT_EMPLOYEE.equals(employee.getEmployeeType())) {
+        if (Const.EmployeeRole.EMPLOYEEROLE_ORDINARY_CUSTOMER.equals(employee.getEmployeeType())) {
             //是普通员工
             //增加处理的逻辑
             return partCategoryService.getChildrenPartCategory(partCategoryId);
@@ -113,13 +117,14 @@ public class CategoryManageController {
      * @return 成功返回Integer集合
      */
     @RequestMapping("get_deep_category.do")
+    @ResponseBody
     public ServerResponse getCategoryAndDeepChildrenCategory(HttpSession session, @RequestParam(value = "categoryId", defaultValue = "0") String partCategoryId) {
         Employee employee = (Employee) session.getAttribute(Const.CURRENT_EMPLOYEE);
         if (employee == null) {
             return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录,请登录");
         }
         //校验一下是否是普通员工
-        if (Const.CURRENT_EMPLOYEE.equals(employee.getEmployeeType())) {
+        if (Const.EmployeeRole.EMPLOYEEROLE_ORDINARY_CUSTOMER.equals(employee.getEmployeeType())) {
             //是普通员工
             //增加处理的逻辑
             return partCategoryService.getChildrenPartCategory(partCategoryId);
@@ -134,6 +139,7 @@ public class CategoryManageController {
         pageEntity.setPageNum(pageNum);
         Pagenation pagenation = partCategoryService.selectPartCategoryList(pageEntity);
         modelMap.addAttribute("pagenation", pagenation);
+        pagenation.setQueryUrl("/manage/part_category/list.do?");
         return "back_part_category";
     }
 

@@ -82,7 +82,9 @@
             </ul>
             <ul class="nav nav-sidebar">
                 <li><a href="<%= request.getContextPath()%>/manage/part_category/list.do">配件分类管理</a></li>
-                <li><a href="#">配件基本信息管理</a></li>
+                <li><a href="<%= request.getContextPath()%>/manage/part_base_info/list.do">配件基本信息管理</a></li>
+                <li><a href="<%= request.getContextPath()%>/manage/auto_styling/list.do">车型信息管理</a></li>
+                <li><a href="#">配件车型信息管理</a></li>
             </ul>
             <ul class="nav nav-sidebar">
                 <li><a href="#">生产商信息管理</a></li>
@@ -116,8 +118,8 @@
                     </form>
                 </div>
                 <div class="col-xs-5">
-                    <input class="btn btn-default" type="button" value="添加">
-                    <input class="btn btn-default" type="submit" value="删除">
+                    <button class="btn btn-default" id="addPartCategory" type="button">添加</button>
+                    <button class="btn btn-default" type="button">删除</button>
                 </div>
             </div>
             <br>
@@ -152,15 +154,15 @@
                     <div class="container" id="pagenation" align="center">
                         <div class="pagination" >
                             <c:if test="${pagenation.pageCount >1}">
-                                <a href="<%= request.getContextPath()%>/manage/part_category/list.do?pageNum=${pagenation.prev }">上一页</a>
+                                <a href="<%= request.getContextPath()%>${pagenation.queryUrl }pageNum=${pagenation.prev }">上一页</a>
                             </c:if>
                             <c:forEach  items="${pagenation.showPages}" var="showPages">
-                                <a href="<%= request.getContextPath()%>/manage/part_category/list.do?pageNum=${showPages }">${showPages }</a>
+                                <a href="<%= request.getContextPath()%>${pagenation.queryUrl }pageNum=${showPages }">${showPages }</a>
                             </c:forEach>
 
 
                             <c:if test="${pagenation.pageCount >1 }">
-                                <a href="<%= request.getContextPath()%>/manage/part_category/list.do?pageNum=${pagenation.next }">下一页</a>
+                                <a href="<%= request.getContextPath()%>${pagenation.queryUrl }pageNum=${pagenation.next }">下一页</a>
                             </c:if>
                         </div>
                     </div>
@@ -170,8 +172,60 @@
 
     </div>
 </div>
-<script src="js/jquery-1.11.1.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcss.com/layer/3.1.0/layer.js"></script>
+
+<script>
+
+    var html = '<form class="am-form">\n' +
+        '            <br>\n' +
+        '            <label for="username">类别编号:</label>\n' +
+        '            <input type="text"  id="partCategoryID"/>\n' +
+        '            <br>\n' +
+        '            <label for="username">类别名称:</label>\n' +
+        '            <input type="text"  id="partCategoryName"/>\n' +
+        '            <br>\n' +
+        '            <label for="password">类别备注:</label>\n' +
+        '            <input type="password" id="partCategoryRemark"/>\n' +
+        '        </form>';
+
+    //弹出一个页面层
+    $('#addPartCategory').on('click', function(){
+        layer.open({
+            type: 1,
+            btn:['添加'],
+            yes: function (index,layero) {
+                var partCategoryID = $(layero).find("#partCategoryID").val();
+
+                console.log(123);
+                var partCategoryName = $(layero).find("#partCategoryName").val();
+                var partCategoryRemark = $(layero).find("#partCategoryRemark").val();
+                $.ajax({
+                    url: "/manage/part_category/add_part_category.do",
+                    data: {
+                        partCategoryID:partCategoryID,
+                        partCategoryName: partCategoryName,
+                        partCategoryRemark: partCategoryRemark
+                    },
+                    success: function(data) {
+                        //成功
+                        if(data.status === 0) {
+                            layer.msg('添加成功！');//保存成功提示
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                        layer.closeAll('iframe');//关闭弹窗
+                    }
+                });
+            },
+            area: ['800px', '600px'],
+            shadeClose: false, //点击遮罩关闭
+            content: html
+        });
+    });
+</script>
+
 </body>
 </html>
 

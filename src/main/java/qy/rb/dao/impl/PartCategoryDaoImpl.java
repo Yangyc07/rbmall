@@ -27,7 +27,25 @@ public class PartCategoryDaoImpl implements PartCategoryDao {
 
 	@Override
 	public boolean insert(PartCategory partCategory) {
-		return false;
+		boolean result = false;
+		conn = DBPoolUtil.getConnection();
+		try {
+			cstmt = conn.prepareCall("{call spInsertPartCategory(?,?,?,?)}");
+			cstmt.registerOutParameter(1, Types.NVARCHAR);
+			cstmt.setString(2,partCategory.getPartCategoryID());
+			cstmt.setString(3,partCategory.getPartCategoryName());
+			cstmt.setString(4,partCategory.getPartCategoryRemark());
+			cstmt.executeUpdate();
+			String flag = cstmt.getString(1);
+			if ("OK".equals(flag)) {
+				result = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBPoolUtil.closeConnection(conn);
+		}
+		return result;
 	}
 
 	@Override

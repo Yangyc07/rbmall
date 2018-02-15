@@ -79,12 +79,12 @@
             type: "post",
             url: "/customer/register.do",
             data: {
-                CustomerName:name,
-                CustomerLoginName: username,
-                CustomerPassword: password,
-                CustomerPhone:phone,
-                CustomerPwdQuestion:question,
-                CustomerPwdAnswer:answer
+                customerName:name,
+                customerLoginName: username,
+                customerPassword: password,
+                customerPhone:phone,
+                customerPwdQuestion:question,
+                customerPwdAnswer:answer
             },
             success: function(data) {
                 //注册成功

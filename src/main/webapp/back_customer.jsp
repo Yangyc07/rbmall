@@ -82,7 +82,9 @@
             </ul>
             <ul class="nav nav-sidebar">
                 <li><a href="<%= request.getContextPath()%>/manage/part_category/list.do">配件分类管理</a></li>
-                <li><a href="#">配件基本信息管理</a></li>
+                <li><a href="<%= request.getContextPath()%>/manage/part_base_info/list.do">配件基本信息管理</a></li>
+                <li><a href="<%= request.getContextPath()%>/manage/auto_styling/list.do">车型信息管理</a></li>
+                <li><a href="#">配件车型信息管理</a></li>
             </ul>
             <ul class="nav nav-sidebar">
                 <li><a href="#">生产商信息管理</a></li>
@@ -195,16 +197,13 @@
         '            <input type="password" name="password" id="password"/>\n' +
         '            <br>\n' +
         '            <label for="password">手机号:</label>\n' +
-        '            <input type="text" name="phone" id="phone"/>\n' +
+        '            <input type="text" id="phone"/>\n' +
         '            <br>\n' +
         '            <label for="password">找到密码问题:</label>\n' +
-        '            <input type="text" name="phone" id="question"/>\n' +
+        '            <input type="text" id="question"/>\n' +
         '            <br>\n' +
         '            <label for="password">找到密码问题:</label>\n' +
-        '            <input type="text" name="phone" id="answer"/>\n' +
-        '            <div class="am-cf">\n' +
-        '                <input type="submit"  id="submit" value="注 册"  class="am-btn am-btn-primary am-btn-sm am-fl">\n' +
-        '            </div>\n' +
+        '            <input type="text"  id="answer"/>\n' +
         '        </form>'
 
     //弹出一个页面层
@@ -224,12 +223,9 @@
                 var answer = $(layero).find("#answer").val();
                 $.ajax({
                     url: "/customer/register.do",
-                    tranditional:true,
-                    contentType:"application/json",
-                    dataType:'json',
                     data: {
-                        "customerName":name,
-                        "customerLoginName": $(layero).find("#username").val(),
+                        customerName:name,
+                        customerLoginName: username,
                         customerPassword: password,
                         customerPhone:phone,
                         customerPwdQuestion:question,
@@ -249,35 +245,6 @@
             area: ['800px', '600px'],
             shadeClose: false, //点击遮罩关闭
             content: html
-        });
-    });
-    $("#submit").click(function() {
-        console.log(123);
-        var name = $("#name").val();
-        var username = $("#username").val();
-        var password = $("#password").val();
-        var phone = $("#phone").val();
-        var question = $("#question").val();
-        var answer = $("#answer").val();
-        $.ajax({
-            url: "/customer/register.do",
-            data: {
-                CustomerName:name,
-                CustomerLoginName: username,
-                CustomerPassword: password,
-                CustomerPhone:phone,
-                CustomerPwdQuestion:question,
-                CustomerPwdAnswer:answer
-            },
-            success: function(data) {
-                //注册成功
-                if(data.status === 0) {
-                    layer.msg('注册成功！');//保存成功提示
-                } else {
-                    layer.msg("用户名已存在");
-                }
-                layer.closeAll('iframe');//关闭弹窗
-            }
         });
     });
 </script>
