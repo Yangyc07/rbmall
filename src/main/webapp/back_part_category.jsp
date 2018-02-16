@@ -72,7 +72,7 @@
     </div>
 </nav>
 
-<!—自适应布局-->
+<!--自适应布局-->
 <div class="container-fluid">
     <div class="row">
         <!—左侧导航栏-->
@@ -101,7 +101,7 @@
                 <li><a href="<%= request.getContextPath()%>/manage/receiver_address/list.do">客户收货地址管理</a></li>
             </ul>
         </div>
-        <!—右侧管理控制台-->
+        <!--右侧管理控制台-->
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <div class="row">
                 <div class="col-xs-7">
@@ -187,7 +187,7 @@
         '            <input type="text"  id="partCategoryName"/>\n' +
         '            <br>\n' +
         '            <label for="password">类别备注:</label>\n' +
-        '            <input type="password" id="partCategoryRemark"/>\n' +
+        '            <input type="text" id="partCategoryRemark"/>\n' +
         '        </form>';
 
     //弹出一个页面层

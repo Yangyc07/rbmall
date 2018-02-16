@@ -1,7 +1,9 @@
 package qy.rb.service.impl;
 
 import org.springframework.stereotype.Service;
+import qy.rb.common.ServerResponse;
 import qy.rb.dao.AutoStylingDao;
+import qy.rb.domain.AutoStyling;
 import qy.rb.domain.PageEntity;
 import qy.rb.service.AutoStylingService;
 import qy.rb.util.Pagenation;
@@ -29,5 +31,14 @@ public class AutoStylingServiceImpl implements AutoStylingService {
 		//在查询 list 的时候，让传入的startRow 和 pageSize 作为limit 条件，添加至 sql。
 		pagenation.setList(autoStylingDao.selectAutoStylingList(pageEntity));
 		return pagenation;
+	}
+
+	@Override
+	public ServerResponse insertAutoStyling(AutoStyling autoStyling) {
+		boolean flag = autoStylingDao.insertAutoStyling(autoStyling);
+		if (flag) {
+			return ServerResponse.createBySuccess("添加成功");
+		}
+		return ServerResponse.createByErrorMessage("添加失败");
 	}
 }

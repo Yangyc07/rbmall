@@ -1,6 +1,7 @@
 package qy.rb.service.impl;
 
 import org.springframework.stereotype.Service;
+import qy.rb.common.ServerResponse;
 import qy.rb.dao.PartBaseInfoDao;
 import qy.rb.domain.PageEntity;
 import qy.rb.domain.PartBaseInfo;
@@ -32,5 +33,14 @@ public class PartBaseInfoServiceImpl implements PartBaseInfoService {
 		//在查询 list 的时候，让传入的startRow 和 pageSize 作为limit 条件，添加至 sql。
 		pagenation.setList(partBaseInfoDao.selectPartBaseInfoList(pageEntity));
 		return pagenation;
+	}
+
+	@Override
+	public ServerResponse insertPartBaseInfo(PartBaseInfo partBaseInfo) {
+		boolean flag = partBaseInfoDao.insertPartBaseInfo(partBaseInfo);
+		if (flag) {
+			return ServerResponse.createBySuccess("添加成功");
+		}
+		return ServerResponse.createByErrorMessage("添加失败");
 	}
 }

@@ -118,7 +118,7 @@
                     </form>
                 </div>
                 <div class="col-xs-5">
-                    <button class="btn btn-default" id="addPartCategory" type="button">添加</button>
+                    <button class="btn btn-default" id="addPartBaseInfo" type="button">添加</button>
                     <button class="btn btn-default" type="button">删除</button>
                 </div>
             </div>
@@ -187,33 +187,46 @@
 
     var html = '<form class="am-form">\n' +
         '            <br>\n' +
-        '            <label for="username">类别编号:</label>\n' +
-        '            <input type="text"  id="partCategoryID"/>\n' +
+        '            <label for="username">零件号:</label>\n' +
+        '            <input type="text"  id="PartModel"/>\n' +
         '            <br>\n' +
-        '            <label for="username">类别名称:</label>\n' +
-        '            <input type="text"  id="partCategoryName"/>\n' +
+        '            <label for="username">零件名称:</label>\n' +
+        '            <input type="text"  id="PartName"/>\n' +
         '            <br>\n' +
-        '            <label for="password">类别备注:</label>\n' +
-        '            <input type="password" id="partCategoryRemark"/>\n' +
+        '            <label for="password">零件副标题:</label>\n' +
+        '            <input type="text" id="PartSubtitle"/>\n' +
+        '            <br>\n' +
+        '            <label for="password">零件单位:</label>\n' +
+        '            <input type="text" id="PartUnit"/>\n' +
+        '            <br>\n' +
+        '            <label for="password">零件所属类别编号:</label>\n' +
+        '            <input type="text" id="PartCategoryID"/>\n' +
+        '            <br>\n' +
+        '            <label for="password">零件基本信息备注:</label>\n' +
+        '            <input type="text" id="PartBaseInfoRemark"/>\n' +
         '        </form>';
 
     //弹出一个页面层
-    $('#addPartCategory').on('click', function(){
+    $('#addPartBaseInfo').on('click', function(){
         layer.open({
             type: 1,
             btn:['添加'],
             yes: function (index,layero) {
-                var partCategoryID = $(layero).find("#partCategoryID").val();
-
-                console.log(123);
-                var partCategoryName = $(layero).find("#partCategoryName").val();
-                var partCategoryRemark = $(layero).find("#partCategoryRemark").val();
+                var partModel = $(layero).find("#PartModel").val();
+                var partName = $(layero).find("#PartName").val();
+                var partSubtitle = $(layero).find("#PartSubtitle").val();
+                var partUnit = $(layero).find("#PartUnit").val();
+                var partCategoryID = $(layero).find("#PartCategoryID").val();
+                var partBaseInfoRemark = $(layero).find("#PartBaseInfoRemark").val();
                 $.ajax({
-                    url: "/manage/part_category/add_part_category.do",
+                    url: "/manage/part_category/add_part_base_info.do",
                     data: {
-                        partCategoryID:partCategoryID,
-                        partCategoryName: partCategoryName,
-                        partCategoryRemark: partCategoryRemark
+                        partModel:partModel,
+                        partName: partName,
+                        partSubtitle: partSubtitle,
+                        partUnit: partUnit,
+                        partCategoryID: partCategoryID,
+                        partBaseInfoRemark: partBaseInfoRemark
                     },
                     success: function(data) {
                         //成功

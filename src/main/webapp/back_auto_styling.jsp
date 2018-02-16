@@ -118,7 +118,7 @@
                     </form>
                 </div>
                 <div class="col-xs-5">
-                    <button class="btn btn-default" id="addPartCategory" type="button">添加</button>
+                    <button class="btn btn-default" id="addAutoStyling" type="button">添加</button>
                     <button class="btn btn-default" type="button">删除</button>
                 </div>
             </div>
@@ -180,33 +180,31 @@
 
     var html = '<form class="am-form">\n' +
         '            <br>\n' +
-        '            <label for="username">类别编号:</label>\n' +
-        '            <input type="text"  id="partCategoryID"/>\n' +
+        '            <label for="username">车型名称:</label>\n' +
+        '            <input type="text"  id="autoStylingName"/>\n' +
         '            <br>\n' +
-        '            <label for="username">类别名称:</label>\n' +
-        '            <input type="text"  id="partCategoryName"/>\n' +
+        '            <label for="username">车型品牌:</label>\n' +
+        '            <input type="text"  id="autoStylingBrand"/>\n' +
         '            <br>\n' +
-        '            <label for="password">类别备注:</label>\n' +
-        '            <input type="password" id="partCategoryRemark"/>\n' +
+        '            <label for="password">车型备注:</label>\n' +
+        '            <input type="text" id="autoStylingRemark"/>\n' +
         '        </form>';
 
     //弹出一个页面层
-    $('#addPartCategory').on('click', function(){
+    $('#addAutoStyling').on('click', function(){
         layer.open({
             type: 1,
             btn:['添加'],
             yes: function (index,layero) {
-                var partCategoryID = $(layero).find("#partCategoryID").val();
-
-                console.log(123);
-                var partCategoryName = $(layero).find("#partCategoryName").val();
-                var partCategoryRemark = $(layero).find("#partCategoryRemark").val();
+                var autoStylingName = $(layero).find("#autoStylingName").val();
+                var autoStylingBrand = $(layero).find("#autoStylingBrand").val();
+                var autoStylingRemark = $(layero).find("#autoStylingRemark").val();
                 $.ajax({
-                    url: "/manage/part_category/add_part_category.do",
+                    url: "/manage/part_category/add_auto_styling.do",
                     data: {
-                        partCategoryID:partCategoryID,
-                        partCategoryName: partCategoryName,
-                        partCategoryRemark: partCategoryRemark
+                        autoStylingName:autoStylingName,
+                        autoStylingBrand: autoStylingBrand,
+                        autoStylingRemark: autoStylingRemark
                     },
                     success: function(data) {
                         //成功

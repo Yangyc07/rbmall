@@ -30,7 +30,7 @@ public class PartBaseInfoDaoImpl implements PartBaseInfoDao {
 		boolean result = false;
 		conn = DBPoolUtil.getConnection();
 		try {
-			cstmt = conn.prepareCall("{call spInsertPartBaseInfo(?,?,?,?)}");
+			cstmt = conn.prepareCall("{call spInsertPartBaseInfo(?,?,?,?,?,?,?)}");
 			cstmt.registerOutParameter(1, Types.NVARCHAR);
 			cstmt.setString(2,partBaseInfo.getPartModel());
 			cstmt.setString(3,partBaseInfo.getPartName());
