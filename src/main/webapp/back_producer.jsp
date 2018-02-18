@@ -84,11 +84,11 @@
                 <li><a href="<%= request.getContextPath()%>/manage/part_category/list.do">配件分类管理</a></li>
                 <li><a href="<%= request.getContextPath()%>/manage/part_base_info/list.do">配件基本信息管理</a></li>
                 <li><a href="<%= request.getContextPath()%>/manage/auto_styling/list.do">车型信息管理</a></li>
-                <li><a href="#">配件车型信息管理</a></li>
+                <li><a href="<%= request.getContextPath()%>/manage/part_auto_styling/list.do">配件车型信息管理</a></li>
             </ul>
             <ul class="nav nav-sidebar">
                 <li><a href="<%= request.getContextPath()%>/manage/producer/list.do">生产商信息管理</a></li>
-                <li><a href="#">睿邦配件信息管理</a></li>
+                <li><a href="<%= request.getContextPath()%>/manage/rb_part_base_info/list.do">睿邦配件信息管理</a></li>
                 <li><a href="#">配件入库管理</a></li>
             </ul>
             <ul class="nav nav-sidebar">

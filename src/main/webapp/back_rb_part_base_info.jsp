@@ -131,12 +131,12 @@
                         <!--表头-->
                         <tr>
                             <th>选择</th>
-                            <th>客户ID</th>
-                            <th>客户名称</th>
-                            <th>客户登录名</th>
-                            <th>联系号码</th>
-                            <th>找回密码问题</th>
-                            <th>找回密码答案</th>
+                            <th>睿邦零件编号</th>
+                            <th>零件号</th>
+                            <th>零件品牌</th>
+                            <th>生产商代码</th>
+                            <th>图片文件夹地址</th>
+                            <th>零件状态</th>
                             <th>备注</th>
                         </tr>
 
@@ -146,15 +146,15 @@
                         <c:forEach var="c" items="${pagenation.list}" varStatus="status">
                             <tr>
                                 <td>
-                                    <input type="checkbox" name="checkcno" id="checkcno" value="${c.customerID}" />
+                                    <input type="checkbox" name="checkcno" id="checkcno" value="${c.rbPartID}" />
                                 </td>
-                                <td>${c.customerID}</td>
-                                <td>${c.customerName}</td>
-                                <td align="center">${c.customerLoginName}</td>
-                                <td align="center">${c.customerPhone}</td>
-                                <td align="center">${c.customerPwdQuestion}</td>
-                                <td align="center">${c.customerPwdAnswer}</td>
-                                <td align="center">${c.customerRemark}</td>
+                                <td>${c.rbPartID}</td>
+                                <td>${c.partModel}</td>
+                                <td align="center">${c.partBrand}</td>
+                                <td align="center">${c.producerID}</td>
+                                <td align="center">${c.partImagesAddress}</td>
+                                <td align="center">${c.partStatus}</td>
+                                <td align="center">${c.rbPartBaseInfoRemark}</td>
                             </tr>
                         </c:forEach>
                         </tbody>
@@ -252,6 +252,7 @@
 
 </body>
 </html>
+
 
 
 

@@ -1,6 +1,9 @@
 package qy.rb.service;
 
+import qy.rb.common.ServerResponse;
+import qy.rb.domain.AutoStyling;
 import qy.rb.domain.PageEntity;
+import qy.rb.domain.PartAutoStyling;
 import qy.rb.util.Pagenation;
 
 /**
@@ -12,5 +15,6 @@ public interface PartAutoStylingService {
 	Pagenation selectPartAutoStylingList(PageEntity pageEntity);
 
 
+	ServerResponse insertPartAutoStyling(PartAutoStyling partAutoStyling);
 
 }
