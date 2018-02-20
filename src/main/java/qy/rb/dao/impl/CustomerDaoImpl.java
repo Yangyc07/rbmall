@@ -257,7 +257,6 @@ public class CustomerDaoImpl implements CustomerDao {
     public int listCustomerDataRawCount(String customerId, String customerName, PageEntity pageEntity) {
         conn = DBPoolUtil.getConnection();
         int result = 0;
-
         try {
             cstmt = conn.prepareCall("{call spSelectCountByIDOrName(?,?,?)}");
             cstmt.registerOutParameter(1,Types.INTEGER);

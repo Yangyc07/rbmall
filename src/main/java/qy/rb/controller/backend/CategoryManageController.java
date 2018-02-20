@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import qy.rb.common.Const;
 import qy.rb.common.ResponseCode;
 import qy.rb.common.ServerResponse;
+import qy.rb.domain.AutoStyling;
 import qy.rb.domain.Employee;
 import qy.rb.domain.PageEntity;
 import qy.rb.domain.PartCategory;
@@ -58,30 +59,6 @@ public class CategoryManageController {
             //增加处理分类的逻辑
             PartCategory partCategory = new PartCategory(partCategoryID, partCategoryName, partCategoryRemark);
             return partCategoryService.insertPartCategory(partCategory);
-        } else {
-            return ServerResponse.createByErrorMessage("无权限操作,需要普通员工权限");
-        }
-    }
-
-    /**
-     * 设置分类名字
-     * @param session
-     * @param partcategoryId
-     * @param partcategoryName
-     * @return
-     */
-    @RequestMapping("set_part_category_name.do")
-    @ResponseBody
-    public ServerResponse setCategoryName(HttpSession session, String partcategoryId, String partcategoryName) {
-        Employee employee = (Employee) session.getAttribute(Const.CURRENT_EMPLOYEE);
-        if (employee == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录,请登录");
-        }
-        //校验一下是否是普通员工
-        if (Const.EmployeeRole.EMPLOYEEROLE_ORDINARY_CUSTOMER.equals(employee.getEmployeeType())) {
-            //是普通员工
-            //增加处理的逻辑
-            return partCategoryService.updatePartCategoryName(partcategoryId,partcategoryName);
         } else {
             return ServerResponse.createByErrorMessage("无权限操作,需要普通员工权限");
         }
@@ -143,6 +120,43 @@ public class CategoryManageController {
         return "back_part_category";
     }
 
+
+    @RequestMapping(value = "update_part_category.do")
+    @ResponseBody
+    public ServerResponse updateCategory(
+            HttpSession session,
+            String partCategoryID,
+            String partCategoryName,
+            String partCategoryRemark) {
+        System.out.println("partCategoryName" + partCategoryName);
+        Employee employee = (Employee) session.getAttribute(Const.CURRENT_EMPLOYEE);
+        if (employee == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录,请登录");
+        }
+        //校验一下是否是普通员工
+        if (Const.EmployeeRole.EMPLOYEEROLE_ORDINARY_CUSTOMER.equals(employee.getEmployeeType())) {
+            //是普通员工
+            //修改车型表的逻辑
+            PartCategory partCategory = new PartCategory(partCategoryID,partCategoryName,partCategoryRemark);
+            return partCategoryService.updatePartCategory(partCategory);
+        } else {
+            return ServerResponse.createByErrorMessage("无权限操作,需要普通员工权限");
+        }
+    }
+
+
+
+    @RequestMapping(value = "/search.do")
+    public String searchList(ModelMap modelMap,@RequestParam(value = "pageNum", defaultValue = "1")int pageNum
+            ,String partCategoryID, String partCategoryName) {
+        PageEntity pageEntity = new PageEntity();
+        pageEntity.setPageNum(pageNum);
+        Pagenation pagenation = partCategoryService.selectPartCategoryListByIdOrName(partCategoryID,partCategoryName,pageEntity);
+        pagenation.setQueryUrl("/manage/part_category/search.do?");
+
+        modelMap.addAttribute("pagenation", pagenation);
+        return "back_part_category";
+    }
 
 
 

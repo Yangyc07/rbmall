@@ -62,5 +62,28 @@ public class AutoStylingManageController {
 		}
 	}
 
+	@RequestMapping("update_auto_styling.do")
+	@ResponseBody
+	public ServerResponse updateAutoStyling(
+			HttpSession session,
+			String autoStylingName,
+			String autoStylingBrand ,
+			String autoStylingRemark) {
+		Employee employee = (Employee) session.getAttribute(Const.CURRENT_EMPLOYEE);
+		if (employee == null) {
+			return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录,请登录");
+		}
+		//校验一下是否是普通员工
+		if (Const.EmployeeRole.EMPLOYEEROLE_ORDINARY_CUSTOMER.equals(employee.getEmployeeType())) {
+			//是普通员工
+			//修改车型表的逻辑
+			AutoStyling autoStyling = new AutoStyling(autoStylingName,autoStylingBrand,autoStylingRemark);
+			return autoStylingService.updateAutoStyling(autoStyling);
+		} else {
+			return ServerResponse.createByErrorMessage("无权限操作,需要普通员工权限");
+		}
+	}
+
+
 
 }

@@ -34,6 +34,14 @@ public interface PartBaseInfoDao {
 	 */
 	int listPartBaseInfoDataRawCount(PageEntity pageEntity);
 
+	/**
+	 * 返回基本零件信息 模糊查询
+	 * @param partModel
+	 * @param partName
+	 * @param pageEntity
+	 * @return
+	 */
+	int listPartBaseInfoDataRawCount(String partModel,String partName,PageEntity pageEntity);
 
 	/**
 	 * 查询基本零件信息

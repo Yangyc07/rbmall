@@ -22,11 +22,10 @@ public interface PartCategoryDao {
 
 	/**
 	 * 更新分类信息
-	 * @param partCategoryId
-	 * @param partCategoryName
+	 * @param partCategory
 	 * @return
 	 */
-	boolean updateByPartCategoryId(String partCategoryId,String partCategoryName);
+	boolean updatePartCategory(PartCategory partCategory);
 
 	/**
 	 * 通过此零件类别编号 找出所有该类别编号下的 零件类别编号
@@ -42,6 +41,15 @@ public interface PartCategoryDao {
 	 * @return
 	 */
 	int listPartCategoryDataRawCount(PageEntity pageEntity);
+
+	/**
+	 * 返回零件类别信息条数 模糊查询
+	 * @param partCategoryID
+	 * @param partCategoryName
+	 * @param pageEntity
+	 * @return
+	 */
+	int listPartCategoryDataRawCount(String partCategoryID,String partCategoryName,PageEntity pageEntity);
 
 
 	/**

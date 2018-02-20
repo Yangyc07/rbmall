@@ -41,4 +41,13 @@ public class AutoStylingServiceImpl implements AutoStylingService {
 		}
 		return ServerResponse.createByErrorMessage("添加失败");
 	}
+
+	@Override
+	public ServerResponse updateAutoStyling(AutoStyling autoStyling) {
+		boolean flag = autoStylingDao.updateAutoStyling(autoStyling);
+		if (flag) {
+			return ServerResponse.createBySuccessMessage("修改成功");
+		}
+		return ServerResponse.createByErrorMessage("修改失败");
+	}
 }

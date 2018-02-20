@@ -68,4 +68,19 @@ public class PartBaseInfoManageController {
 		pagenation.setQueryUrl("/manage/part_base_info/list.do?");
 		return "back_part_base_info";
 	}
+
+
+	@RequestMapping(value = "/search.do")
+	public String searchList(ModelMap modelMap,@RequestParam(value = "pageNum", defaultValue = "1")int pageNum
+			,String partModel, String partName) {
+		PageEntity pageEntity = new PageEntity();
+		pageEntity.setPageNum(pageNum);
+		Pagenation pagenation = partBaseInfoService.selectPartBaseInfoListByIdOrName(partModel,partName,pageEntity);
+		pagenation.setQueryUrl("/manage/part_base_info/search.do?");
+		modelMap.addAttribute("pagenation", pagenation);
+		return "back_part_base_info";
+	}
+
+
+
 }

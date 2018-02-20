@@ -24,4 +24,12 @@ public interface AutoStylingService {
 	 */
 	ServerResponse insertAutoStyling(AutoStyling autoStyling);
 
+	/**
+	 * 修改车型
+	 * @param autoStyling
+	 * @return
+	 */
+	ServerResponse updateAutoStyling(AutoStyling autoStyling);
+
+
 }

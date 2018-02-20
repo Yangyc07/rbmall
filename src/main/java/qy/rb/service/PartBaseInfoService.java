@@ -10,8 +10,21 @@ import qy.rb.util.Pagenation;
  * @create 2018/02/15
  **/
 public interface PartBaseInfoService {
-
+	/**
+	 * 列表
+	 * @param pageEntity
+	 * @return
+	 */
 	Pagenation selectPartBaseInfoList(PageEntity pageEntity);
+
+	/**
+	 * 模糊查询列表
+	 * @param partModel
+	 * @param partName
+	 * @param pageEntity
+	 * @return
+	 */
+	Pagenation selectPartBaseInfoListByIdOrName(String partModel,String partName,PageEntity pageEntity);
 
 
 	/**
@@ -20,6 +33,8 @@ public interface PartBaseInfoService {
 	 * @return
 	 */
 	ServerResponse insertPartBaseInfo(PartBaseInfo partBaseInfo);
+
+
 
 
 }

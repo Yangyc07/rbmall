@@ -33,21 +33,21 @@ public class PartCategoryServiceImpl implements PartCategoryService {
 	public ServerResponse insertPartCategory(PartCategory partCategory) {
 		boolean flag = partCategoryDao.insert(partCategory);
 		if (flag) {
-			return ServerResponse.createBySuccess("添加成功");
+			return ServerResponse.createBySuccessMessage("添加成功");
 		}
 		return ServerResponse.createByErrorMessage("添加失败");
 	}
 
 	@Override
-	public ServerResponse updatePartCategoryName(String partCategoryId, String partCategoryName) {
-		if(partCategoryId == null || StringUtils.isBlank(partCategoryName)){
+	public ServerResponse updatePartCategory(PartCategory partCategory) {
+		if(partCategory.getPartCategoryID() == null || StringUtils.isBlank(partCategory.getPartCategoryName())){
 			return ServerResponse.createByErrorMessage("更新配件分类参数错误");
 		}
-		boolean flag = partCategoryDao.updateByPartCategoryId(partCategoryId,partCategoryName);
+		boolean flag = partCategoryDao.updatePartCategory(partCategory);
 		if(flag){
-			return ServerResponse.createBySuccess("更新配件分类名字成功");
+			return ServerResponse.createBySuccessMessage("更新配件分类成功");
 		}
-		return ServerResponse.createByErrorMessage("更新配件分类名字失败");
+		return ServerResponse.createByErrorMessage("更新配件分类失败");
 
 
 
@@ -75,7 +75,31 @@ public class PartCategoryServiceImpl implements PartCategoryService {
 		return pagenation;
 	}
 
+	@Override
+	public Pagenation selectPartCategoryListByIdOrName(String partCategoryId, String partCategoryName, PageEntity pageEntity) {
+		if (StringUtils.isNoneBlank(partCategoryId)) {
+			//customerId为空不执行
+			partCategoryId = new StringBuilder().append(partCategoryId).append("%").toString();
+		} else {
+			partCategoryId = null;
+		}
+		if (StringUtils.isNoneBlank(partCategoryName)) {
+			//partCategoryName
+			partCategoryName = new StringBuilder().append(partCategoryName).append("%").toString();
+		} else {
+			partCategoryName = null;
+		}
+		//算出所需数据的总条数
+		int cout = partCategoryDao.listPartCategoryDataRawCount(partCategoryId,partCategoryName,pageEntity);
 
+		//通过（当前页、每页显示条数、总条数） 初始化分页信息
+		Pagenation pagenation = new Pagenation(pageEntity.getPageSize(), pageEntity.getPageNum(), cout);
+		//通过上步骤算出要查询的 开始条数，边set 到分页入参实体类中。
+		pageEntity.setStartRow(pagenation.getStartRow());
+		//在查询 list 的时候，让传入的startRow 和 pageSize 作为limit 条件，添加至 sql。
+		pagenation.setList(partCategoryDao.selectPartCategoryListByIdOrName(partCategoryId, partCategoryName, pageEntity));
+		return pagenation;
+	}
 
 
 }

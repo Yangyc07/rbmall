@@ -134,6 +134,7 @@
                             <th>车型名称</th>
                             <th>车型品牌</th>
                             <th>车型备注</th>
+                            <th>操作</th>
                         </tr>
 
                         </thead>
@@ -147,6 +148,10 @@
                                 <td>${c.autoStylingName}</td>
                                 <td>${c.autoStylingBrand}</td>
                                 <td align="center">${c.autoStylingRemark}</td>
+                                <td align="center">
+                                    <button class="btn btn-default"  id="updateAutoStyling"
+                                           onclick="update('${c.autoStylingName}','${c.autoStylingBrand}','${c.autoStylingRemark}')" type="button">修改</button>
+                                </td>
                             </tr>
                         </c:forEach>
                         </tbody>
@@ -181,17 +186,21 @@
     var html = '<form class="am-form">\n' +
         '            <br>\n' +
         '            <label for="username">车型名称:</label>\n' +
-        '            <input type="text"  id="autoStylingName"/>\n' +
+        '            <input type="text"  id="autoStylingName" value=""/>\n' +
         '            <br>\n' +
         '            <label for="username">车型品牌:</label>\n' +
-        '            <input type="text"  id="autoStylingBrand"/>\n' +
+        '            <input type="text"  id="autoStylingBrand" value=""/>\n' +
         '            <br>\n' +
         '            <label for="password">车型备注:</label>\n' +
-        '            <input type="text" id="autoStylingRemark"/>\n' +
+        '            <input type="text" id="autoStylingRemark" value=""/>\n' +
         '        </form>';
+
+
+
 
     //弹出一个页面层
     $('#addAutoStyling').on('click', function(){
+
         layer.open({
             type: 1,
             btn:['添加'],
@@ -200,7 +209,7 @@
                 var autoStylingBrand = $(layero).find("#autoStylingBrand").val();
                 var autoStylingRemark = $(layero).find("#autoStylingRemark").val();
                 $.ajax({
-                    url: "/manage/part_category/add_auto_styling.do",
+                    url: "/manage/auto_styling/add_auto_styling.do",
                     data: {
                         autoStylingName:autoStylingName,
                         autoStylingBrand: autoStylingBrand,
@@ -222,6 +231,52 @@
             content: html
         });
     });
+
+
+
+    //弹出修改页面层
+    function update(name,brand,remark) {
+        layer.open({
+            type: 1,
+            btn:['修改'],
+            yes: function (index,layero) {
+                var autoStylingName = $(layero).find("#autoStylingName").val();
+                var autoStylingBrand = $(layero).find("#autoStylingBrand").val();
+                var autoStylingRemark = $(layero).find("#autoStylingRemark").val();
+                $.ajax({
+                    url: "/manage/auto_styling/update_auto_styling.do",
+                    data: {
+                        autoStylingName:autoStylingName,
+                        autoStylingBrand: autoStylingBrand,
+                        autoStylingRemark: autoStylingRemark
+                    },
+                    success: function(data) {
+                        console.log(data.msg);
+                        //成功
+                        if(data.status === 0) {
+                            layer.msg(data.msg);//保存成功提示
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                        layer.closeAll('iframe');//关闭弹窗
+                    }
+                });
+            },
+            area: ['800px', '600px'],
+            shadeClose: false, //点击遮罩关闭
+            content: '<form class="am-form">\n' +
+            '            <br>\n' +
+            '            <label for="username">车型名称:</label>\n' +
+            '            <input type="text"  id="autoStylingName" value="' + name + '"/>\n' +
+            '            <br>\n' +
+            '            <label for="username">车型品牌:</label>\n' +
+            '            <input type="text"  id="autoStylingBrand" value="'+ brand +'"/>\n' +
+            '            <br>\n' +
+            '            <label for="password">车型备注:</label>\n' +
+            '            <input type="text" id="autoStylingRemark" value="'+remark+'"/>\n' +
+            '        </form>'
+        });
+    }
 </script>
 
 </body>

@@ -105,14 +105,15 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <div class="row">
                 <div class="col-xs-7">
-                    <form class="form-inline">
+                    <form class="form-inline" method="post" action="<%= request.getContextPath()%>/manage/part_category/search.do" name="searchForm" id="searchForm">
+
                         <div class="form-group">
-                            <label for="exampleInputName2">ID</label>
-                            <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+                            <label for="exampleInputName2">编号</label>
+                            <input type="text" class="form-control" id="exampleInputName2" name="partCategoryID" placeholder="0102">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail2">名称</label>
-                            <input type="test" class="form-control" id="exampleInputEmail2" placeholder="如：张三">
+                            <input type="test" class="form-control" id="exampleInputEmail2" name="partCategoryName" placeholder="如：张三">
                         </div>
                         <button type="submit" class="btn btn-default">搜索</button>
                     </form>
@@ -134,6 +135,7 @@
                             <th>零件类别编号</th>
                             <th>零件类别名称</th>
                             <th>零件类别备注</th>
+                            <th>操作</th>
                         </tr>
 
                         </thead>
@@ -147,6 +149,10 @@
                                 <td>${c.partCategoryID}</td>
                                 <td>${c.partCategoryName}</td>
                                 <td align="center">${c.partCategoryRemark}</td>
+                                <td align="center">
+                                    <button class="btn btn-default"  id="updateAutoStyling"
+                                            onclick="update('${c.partCategoryID}','${c.partCategoryName}','${c.partCategoryRemark}')" type="button">修改</button>
+                                </td>
                             </tr>
                         </c:forEach>
                         </tbody>
@@ -181,7 +187,7 @@
     var html = '<form class="am-form">\n' +
         '            <br>\n' +
         '            <label for="username">类别编号:</label>\n' +
-        '            <input type="text"  id="partCategoryID"/>\n' +
+        '            <input type="text"  id="partCategoryID" />\n' +
         '            <br>\n' +
         '            <label for="username">类别名称:</label>\n' +
         '            <input type="text"  id="partCategoryName"/>\n' +
@@ -197,11 +203,11 @@
             btn:['添加'],
             yes: function (index,layero) {
                 var partCategoryID = $(layero).find("#partCategoryID").val();
-
-                console.log(123);
                 var partCategoryName = $(layero).find("#partCategoryName").val();
                 var partCategoryRemark = $(layero).find("#partCategoryRemark").val();
+
                 $.ajax({
+                    type: "post",
                     url: "/manage/part_category/add_part_category.do",
                     data: {
                         partCategoryID:partCategoryID,
@@ -211,7 +217,7 @@
                     success: function(data) {
                         //成功
                         if(data.status === 0) {
-                            layer.msg('添加成功！');//保存成功提示
+                            layer.msg(data.msg);//保存成功提示
                         } else {
                             layer.msg(data.msg);
                         }
@@ -224,6 +230,54 @@
             content: html
         });
     });
+
+
+    //弹出修改页面层
+    function update(name,brand,remark) {
+        layer.open({
+            type: 1,
+            btn:['修改'],
+            yes: function (index,layero) {
+                var partCategoryID = $(layero).find("#partCategoryID").val();
+                var partCategoryName = $(layero).find("#partCategoryName").val();
+                var partCategoryRemark = $(layero).find("#partCategoryRemark").val();
+                $.ajax({
+                    type: "post",
+                    url: "/manage/part_category/update_part_category.do",
+                    data: {
+                        partCategoryID:partCategoryID,
+                        partCategoryName: partCategoryName,
+                        partCategoryRemark: partCategoryRemark
+                    },
+                    success: function(data) {
+                        //成功
+                        if(data.status === 0) {
+                            layer.msg(data.msg);//修改成功提示
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                        layer.closeAll('iframe');//关闭弹窗
+                    }
+                });
+            },
+            area: ['800px', '600px'],
+            shadeClose: false, //点击遮罩关闭
+            content: '<form class="am-form">\n' +
+            '            <br>\n' +
+            '            <label for="username">类别编号:</label>\n' +
+            '            <input type="text"  id="partCategoryID" value="' + name + '" disabled>\n' +
+            '            <br>\n' +
+            '            <label for="username">类别名称:</label>\n' +
+            '            <input type="text"  id="partCategoryName" value="'+ brand +'"/>\n' +
+            '            <br>\n' +
+            '            <label for="password">类别备注:</label>\n' +
+            '            <input type="text" id="partCategoryRemark" value="'+ remark +'" />\n' +
+            '        </form>'
+        });
+    }
+
+
+
 </script>
 
 </body>

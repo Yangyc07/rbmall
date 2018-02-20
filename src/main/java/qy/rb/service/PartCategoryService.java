@@ -22,11 +22,10 @@ public interface PartCategoryService {
 
 	/**
 	 * 修改分类名称
-	 * @param partCategoryId
-	 * @param partCategoryName
+	 * @param partCategory
 	 * @return
 	 */
-	ServerResponse updatePartCategoryName(String partCategoryId,String partCategoryName);
+	ServerResponse updatePartCategory(PartCategory partCategory);
 
 	/**
 	 * 得到孩子分类信息
@@ -37,5 +36,6 @@ public interface PartCategoryService {
 
 	public Pagenation selectPartCategoryList(PageEntity pageEntity);
 
+	Pagenation selectPartCategoryListByIdOrName(String partCategoryId,String partCategoryName,PageEntity pageEntity);
 
 }

@@ -75,6 +75,25 @@ public class PartBaseInfoDaoImpl implements PartBaseInfoDao {
 	}
 
 	@Override
+	public int listPartBaseInfoDataRawCount(String partModel, String partName, PageEntity pageEntity) {
+		conn = DBPoolUtil.getConnection();
+		int result = 0;
+		try {
+			cstmt = conn.prepareCall("{call spSelectPartBaseInfoCountByModelOrName(?,?,?)}");
+			cstmt.registerOutParameter(1,Types.INTEGER);
+			cstmt.setString(2,partModel);
+			cstmt.setString(3,partName);
+			cstmt.execute();
+			result = cstmt.getInt(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBPoolUtil.closeConnection(conn);
+		}
+		return result;
+	}
+
+	@Override
 	public List<PartBaseInfo> selectPartBaseInfoList(PageEntity pageEntity) {
 		List<PartBaseInfo> partBaseInfoList = new ArrayList<>();
 		try {
@@ -106,7 +125,7 @@ public class PartBaseInfoDaoImpl implements PartBaseInfoDao {
 		List<PartBaseInfo> partBaseInfoList = new ArrayList<>();
 		try {
 			conn = DBPoolUtil.getConnection();
-			cstmt = conn.prepareCall("{call spGetLimitPartBaseInfo(?,?,?,?)}");
+			cstmt = conn.prepareCall("{call spGetLimitPartBaseInfoListByModelOrName(?,?,?,?)}");
 			cstmt.setString(1,partModel);
 			cstmt.setString(2,partName);
 			cstmt.setInt(3,pageEntity.getStartRow());

@@ -105,14 +105,15 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <div class="row">
                 <div class="col-xs-7">
-                    <form class="form-inline">
+                    <form class="form-inline" method="post" action="<%= request.getContextPath()%>/manage/part_base_info/search.do" name="searchForm" id="searchForm">
+
                         <div class="form-group">
-                            <label for="exampleInputName2">ID</label>
-                            <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+                            <label for="exampleInputName2">零件号</label>
+                            <input type="text" class="form-control" id="exampleInputName2" name="partModel" placeholder="0102">
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail2">名称</label>
-                            <input type="test" class="form-control" id="exampleInputEmail2" placeholder="如：张三">
+                            <input type="test" class="form-control" id="exampleInputEmail2" name="partName" placeholder="如：张三">
                         </div>
                         <button type="submit" class="btn btn-default">搜索</button>
                     </form>

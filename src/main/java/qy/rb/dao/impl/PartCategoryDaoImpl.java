@@ -49,8 +49,26 @@ public class PartCategoryDaoImpl implements PartCategoryDao {
 	}
 
 	@Override
-	public boolean updateByPartCategoryId(String partCategoryId, String partCategoryName) {
-		return false;
+	public boolean updatePartCategory(PartCategory partCategory) {
+		boolean result = false;
+		conn = DBPoolUtil.getConnection();
+		try {
+			cstmt = conn.prepareCall("{call spUpdatePartCatrgoryByID(?,?,?,?)}");
+			cstmt.registerOutParameter(1, Types.NVARCHAR);
+			cstmt.setString(2,partCategory.getPartCategoryID());
+			cstmt.setString(3,partCategory.getPartCategoryName());
+			cstmt.setString(4,partCategory.getPartCategoryRemark());
+			cstmt.executeUpdate();
+			String flag = cstmt.getString(1);
+			if ("OK".equals(flag)) {
+				result = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBPoolUtil.closeConnection(conn);
+		}
+		return result;
 	}
 
 	@Override
@@ -65,6 +83,25 @@ public class PartCategoryDaoImpl implements PartCategoryDao {
 		try {
 			cstmt = conn.prepareCall("{call spSelectPartCategoryCount(?)}");
 			cstmt.registerOutParameter(1, Types.INTEGER);
+			cstmt.execute();
+			result = cstmt.getInt(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBPoolUtil.closeConnection(conn);
+		}
+		return result;
+	}
+
+	@Override
+	public int listPartCategoryDataRawCount(String partCategoryID, String partCategoryName, PageEntity pageEntity) {
+		conn = DBPoolUtil.getConnection();
+		int result = 0;
+		try {
+			cstmt = conn.prepareCall("{call spSelectPartCatrgoryCountByIDOrName(?,?,?)}");
+			cstmt.registerOutParameter(1,Types.INTEGER);
+			cstmt.setString(2,partCategoryID);
+			cstmt.setString(3,partCategoryName);
 			cstmt.execute();
 			result = cstmt.getInt(1);
 		} catch (SQLException e) {
@@ -105,12 +142,12 @@ public class PartCategoryDaoImpl implements PartCategoryDao {
 
 		try {
 			conn = DBPoolUtil.getConnection();
-			cstmt = conn.prepareCall("{call spGetLimitPartCategoryListByIDOrName(?,?,?,?)}");
+			cstmt = conn.prepareCall("{call spGetLimitPartCatrgoryListByIDOrName(?,?,?,?)}");
 			cstmt.setString(1,partCategoryID);
 			cstmt.setString(2,partCategoryName);
 			cstmt.setInt(3,pageEntity.getStartRow());
 			cstmt.setInt(4,pageEntity.getPageSize());
-
+			rs = cstmt.executeQuery();
 			while(rs.next()) {
 				PartCategory partCategory = new PartCategory();
 				partCategory.setPartCategoryID(rs.getString("PartCategoryID"));

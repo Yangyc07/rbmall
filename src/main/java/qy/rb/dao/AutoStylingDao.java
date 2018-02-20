@@ -27,6 +27,13 @@ public interface AutoStylingDao {
 	boolean deleteByAutoStylingName(String autoStylingName);
 
 	/**
+	 * 修改车型
+	 * @param autoStyling
+	 * @return
+	 */
+	boolean updateAutoStyling(AutoStyling autoStyling);
+
+	/**
 	 * 返回车型信息条数
 	 * @param pageEntity
 	 * @return
