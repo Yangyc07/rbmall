@@ -42,7 +42,7 @@ public class RBPartBaseInfoServiceImpl implements RBPartBaseInfoService {
 		if (rbPartBaseInfo != null) {
 			boolean flag = rbPartBaseInfoDao.insertRBPartBaseInfo(rbPartBaseInfo);
 			if (flag) {
-				return ServerResponse.createBySuccess("添加成功");
+				return ServerResponse.createBySuccessMessage("添加成功");
 			} else {
 				return ServerResponse.createByErrorMessage("添加失败");
 			}

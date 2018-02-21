@@ -100,4 +100,8 @@ public class PartBaseInfo {
 		this.partCategoryId = partCategoryId;
 		this.partBaseInfoRemark = partBaseInfoRemark;
 	}
+
+
+
+
 }

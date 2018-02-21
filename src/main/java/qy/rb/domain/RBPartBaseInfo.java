@@ -36,7 +36,7 @@ public class RBPartBaseInfo {
 	/**
 	 * 零件状态        1-有货   2-缺货  3－下架
 	 */
-	private String partStatus;
+	private int partStatus;
 
 	private String rbPartBaseInfoRemark;
 
@@ -96,11 +96,11 @@ public class RBPartBaseInfo {
 		this.partImagesAddress = partImagesAddress;
 	}
 
-	public String getPartStatus() {
+	public int getPartStatus() {
 		return partStatus;
 	}
 
-	public void setPartStatus(String partStatus) {
+	public void setPartStatus(Integer partStatus) {
 		this.partStatus = partStatus;
 	}
 
@@ -112,7 +112,7 @@ public class RBPartBaseInfo {
 		this.rbPartBaseInfoRemark = rbPartBaseInfoRemark;
 	}
 
-	public RBPartBaseInfo(String rbPartID, String partModel, String partBrand, String producerID, String partImagesAddress, String partStatus, String rbPartBaseInfoRemark) {
+	public RBPartBaseInfo(String rbPartID, String partModel, String partBrand, String producerID, String partImagesAddress, int partStatus, String rbPartBaseInfoRemark) {
 		this.rbPartID = rbPartID;
 		this.partModel = partModel;
 		this.partBrand = partBrand;

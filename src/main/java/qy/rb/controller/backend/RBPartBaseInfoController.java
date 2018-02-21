@@ -11,8 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import qy.rb.common.Const;
 import qy.rb.common.ResponseCode;
 import qy.rb.common.ServerResponse;
-import qy.rb.domain.Employee;
-import qy.rb.domain.PageEntity;
+import qy.rb.domain.*;
 import qy.rb.service.FileService;
 import qy.rb.service.RBPartBaseInfoService;
 import qy.rb.util.Pagenation;
@@ -49,9 +48,54 @@ public class RBPartBaseInfoController {
 	}
 
 
+	@RequestMapping("add_rb_part_base_info.do")
+	@ResponseBody
+	public ServerResponse addRBPartBaseInfo(
+			HttpSession session,
+			@RequestParam(value = "partModel",required = false)String partModel,
+			@RequestParam(value = "partBrand",required = false)String partBrand ,
+			@RequestParam(value = "producerID",required = false)String producerID,
+			@RequestParam(value = "partImagesAddress",required = false) MultipartFile partImagesAddress,
+			@RequestParam(value = "partStatus",required = false)Integer partStatus,
+			@RequestParam(value = "rbPartBaseInfoRemark",required = false)String rbPartBaseInfoRemark,
+			HttpServletRequest request) {
+		Employee employee = (Employee) session.getAttribute(Const.CURRENT_EMPLOYEE);
+		if (employee == null) {
+			return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录,请登录");
+		}
+		//校验一下是否是普通员工
+		if (Const.EmployeeRole.EMPLOYEEROLE_ORDINARY_CUSTOMER.equals(employee.getEmployeeType())) {
+			//是普通员工
+			//上传文件
+			String path = request.getSession().getServletContext().getRealPath(
+					"upload");
+			String targetFileName = fileService.upload(partImagesAddress,path,partModel);
+			String url = PropertiesUtil.getProperty("ftp.server.http.prefix")+targetFileName;
+
+			Map fileMap = Maps.newHashMap();
+			fileMap.put("uri",targetFileName);
+			fileMap.put("url",url);
+
+
+			String rbPartID =  new StringBuilder().append("RB_").append(partModel).append("_").append(producerID).toString();
+
+
+			RBPartBaseInfo rbPartBaseInfo = new RBPartBaseInfo(rbPartID,partModel,partBrand,producerID
+												,targetFileName,partStatus.intValue(),rbPartBaseInfoRemark);
+
+			return rbPartBaseInfoService.insertRBPartBaseInfo(rbPartBaseInfo);
+		} else {
+			return ServerResponse.createByErrorMessage("无权限操作,需要普通员工权限");
+		}
+	}
+
+
+
 	@RequestMapping("upload.do")
 	@ResponseBody
-	public ServerResponse upload(HttpSession session, @RequestParam(value = "upload_file",required = false) MultipartFile file, HttpServletRequest request){
+	public ServerResponse upload(HttpSession session,
+								 String remotePath,
+								 @RequestParam(value = "upload_file",required = false) MultipartFile file, HttpServletRequest request){
 		Employee employee = (Employee) session.getAttribute(Const.CURRENT_EMPLOYEE);
 		if (employee == null) {
 			return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录,请登录");
@@ -59,7 +103,7 @@ public class RBPartBaseInfoController {
 		if (Const.EmployeeRole.EMPLOYEEROLE_ORDINARY_CUSTOMER.equals(employee.getEmployeeType())) {
 			String path = request.getSession().getServletContext().getRealPath(
 					"upload");
-			String targetFileName = fileService.upload(file,path);
+			String targetFileName = fileService.upload(file,path,remotePath);
 			String url = PropertiesUtil.getProperty("ftp.server.http.prefix")+targetFileName;
 
 			Map fileMap = Maps.newHashMap();

@@ -190,25 +190,25 @@
 <script src="https://cdn.bootcss.com/layer/3.1.0/layer.js"></script>
 <script>
 
-    var html = '<form class="am-form">\n' +
+    var html = '<form id="tf" class="am-form">\n' +
         '            <br>\n' +
-        '            <label for="username">姓名:</label>\n' +
-        '            <input type="text" name="name" id="name"/>\n' +
+        '            <label >零件号:</label>\n' +
+        '            <input type="text" name="partModel"/>\n' +
         '            <br>\n' +
-        '            <label for="username">账号:</label>\n' +
-        '            <input type="text" name="username" id="username"/>\n' +
+        '            <label >零件品牌:</label>\n' +
+        '            <input type="text" name="partBrand"/>\n' +
         '            <br>\n' +
-        '            <label for="password">密码:</label>\n' +
-        '            <input type="password" name="password" id="password"/>\n' +
+        '            <label >生产商代码:</label>\n' +
+        '            <input type="text" name="producerID"/>\n' +
         '            <br>\n' +
-        '            <label for="password">手机号:</label>\n' +
-        '            <input type="text" id="phone"/>\n' +
+        '            <label >图片文件夹地址:</label>\n' +
+        '            <input type="file" name="partImagesAddress"/>\n' +
         '            <br>\n' +
-        '            <label for="password">找到密码问题:</label>\n' +
-        '            <input type="text" id="question"/>\n' +
+        '            <label >零件状态:</label>\n' +
+        '            <input type="text"  name="partStatus"/>\n' +
         '            <br>\n' +
-        '            <label for="password">找到密码问题:</label>\n' +
-        '            <input type="text"  id="answer"/>\n' +
+        '            <label >备注:</label>\n' +
+        '            <input type="text"  name="rbPartBaseInfoRemark"/>\n' +
         '        </form>'
 
     //弹出一个页面层
@@ -217,31 +217,19 @@
             type: 1,
             btn:['添加'],
             yes: function (index,layero) {
-                console.log(123);
-                var name = $(layero).find("#name").val();
-                console.log(name);
-
-                var username = $(layero).find("#username").val();
-                var password = $(layero).find("#password").val();
-                var phone = $(layero).find("#phone").val();
-                var question = $(layero).find("#question").val();
-                var answer = $(layero).find("#answer").val();
-                $.ajax({
-                    url: "/customer/register.do",
-                    data: {
-                        customerName:name,
-                        customerLoginName: username,
-                        customerPassword: password,
-                        customerPhone:phone,
-                        customerPwdQuestion:question,
-                        customerPwdAnswer:answer
-                    },
+                var form = new FormData(document.getElementById("tf"));
+                   $.ajax({
+                    type:"post",
+                    url: "/manage/rb_part_base_info/add_rb_part_base_info.do",
+                    data: form,
+                    processData:false,
+                    contentType:false,
                     success: function(data) {
                         //注册成功
                         if(data.status === 0) {
-                            layer.msg('注册成功！');//保存成功提示
+                            layer.msg(data.msg);//保存成功提示
                         } else {
-                            layer.msg("用户名已存在");
+                            layer.msg(data.msg);
                         }
                         layer.closeAll('iframe');//关闭弹窗
                     }
@@ -252,6 +240,69 @@
             content: html
         });
     });
+
+    function update(rbPartID,model,name,producerID,partImagesAddress,status,remark) {
+        layer.open({
+            type: 1,
+            btn:['修改'],
+            yes: function (index,layero) {
+                var partModel = $(layero).find("#partModel").val();
+                var partBrand = $(layero).find("#partBrand").val();
+                var producerID = $(layero).find("#producerID").val();
+                var partImagesAddress = $(layero).find("#partImagesAddress").val();
+                var partStatus = $(layero).find("#partStatus").val();
+                var rbPartBaseInfoRemark = $(layero).find("#rbPartBaseInfoRemark").val();
+                $.ajax({
+                    url: "/manage/rb_part_base_info/update_part_base_info.do",
+                    data: {
+                        partModel:partModel,
+                        partBrand: partBrand,
+                        producerID: producerID,
+                        partImagesAddress:partImagesAddress,
+                        partStatus:partStatus,
+                        rbPartBaseInfoRemark:rbPartBaseInfoRemark
+                    },
+                    success: function(data) {
+                        console.log(data.msg);
+                        //成功
+                        if(data.status === 0) {
+                            layer.msg(data.msg);//保存成功提示
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                        layer.closeAll('iframe');//关闭弹窗
+                    }
+                });
+            },
+            area: ['800px', '600px'],
+            shadeClose: false, //点击遮罩关闭
+            content:  '<form class="am-form">\n' +
+            '            <br>\n' +
+            '            <label >睿邦零件编号:</label>\n' +
+            '            <input type="text" id="rbPartID" value="' + rbPartID + '" disabled>\n' +
+            '            <br>\n' +
+            '            <label >零件号:</label>\n' +
+            '            <input type="text" id="partModel" value="' + model + '">\n' +
+            '            <br>\n' +
+            '            <label >零件品牌:</label>\n' +
+            '            <input type="text" id="partBrand" value="' + name + '"/>\n' +
+            '            <br>\n' +
+            '            <label >生产商代码:</label>\n' +
+            '            <input type="text" id="producerID" value="' + producerID + '"/>\n' +
+            '            <br>\n' +
+            '            <label >图片文件夹地址:</label>\n' +
+            '            <input type="text" id="partImagesAddress" value="' + partImagesAddress + '"/>\n' +
+            '            <br>\n' +
+            '            <label >零件状态:</label>\n' +
+            '            <input type="text"  id="partStatus" value="' + status + '"/>\n' +
+            '            <br>\n' +
+            '            <label >备注:</label>\n' +
+            '            <input type="text"  id="rbPartBaseInfoRemark" value="' + remark + '"/>\n' +
+            '        </form>'
+        });
+    }
+
+
 </script>
 
 

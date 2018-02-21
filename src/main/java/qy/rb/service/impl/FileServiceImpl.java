@@ -18,7 +18,7 @@ public class FileServiceImpl implements FileService {
     private Logger logger = LoggerFactory.getLogger(FileServiceImpl.class);
 
     @Override
-	public String upload(MultipartFile file, String path){
+	public String upload(MultipartFile file, String path,String remotePath){
         String fileName = file.getOriginalFilename();
         //扩展名
         //abc.jpg
@@ -37,7 +37,7 @@ public class FileServiceImpl implements FileService {
         try {
             file.transferTo(targetFile);
             //文件已经上传成功了
-            FTPUtil.uploadFile(Lists.newArrayList(targetFile));
+            FTPUtil.uploadFile("image/" +remotePath,Lists.newArrayList(targetFile));
             //已经上传到ftp服务器上
             targetFile.delete();
         } catch (IOException e) {
@@ -46,7 +46,7 @@ public class FileServiceImpl implements FileService {
         }
         //A:abc.jpg
         //B:abc.jpg
-        return targetFile.getName();
+        return remotePath + "/" + targetFile.getName();
     }
 
 }

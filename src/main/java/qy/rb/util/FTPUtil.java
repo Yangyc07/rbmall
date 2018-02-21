@@ -21,21 +21,27 @@ public class FTPUtil {
         this.user = user;
         this.pwd = pwd;
     }
-    public static boolean uploadFile(List<File> fileList) throws IOException {
+    public static boolean uploadFile(String remotePath,List<File> fileList) throws IOException {
         FTPUtil ftpUtil = new FTPUtil(ftpIp,20,ftpUser,ftpPass);
-        boolean result = ftpUtil.uploadFile("img",fileList);
+        boolean result = ftpUtil.uploadFile1(remotePath,fileList);
         return result;
     }
 
 
-    private boolean uploadFile(String remotePath,List<File> fileList) throws IOException {
+    private boolean uploadFile1(String remotePath,List<File> fileList) throws IOException {
         boolean uploaded = true;
         FileInputStream fis = null;
         //连接FTP服务器
         if(connectServer(this.ip,this.port,this.user,this.pwd)){
             try {
                 // 设置上传目录
-                ftpClient.changeWorkingDirectory(remotePath);
+                String[] paths = remotePath.split("/");
+                for (String path : paths) {
+                    if (!ftpClient.changeWorkingDirectory(path)) {
+                        ftpClient.mkd(path);
+                        ftpClient.changeWorkingDirectory(path);
+                    }
+                }
 
                 ftpClient.setBufferSize(1024);
 

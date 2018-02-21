@@ -31,14 +31,15 @@ public class RBPartBaseInfoDaoImpl implements RBPartBaseInfoDao {
 		boolean result = false;
 		conn = DBPoolUtil.getConnection();
 		try {
-			cstmt = conn.prepareCall("{call spInsertProducer(?,?,?,?)}");
+			cstmt = conn.prepareCall("{call spInsertRBPartBaseInfo(?,?,?,?,?,?,?,?)}");
 			cstmt.registerOutParameter(1, Types.NVARCHAR);
-			cstmt.setString(2,"RB_" + rbPartBaseInfo.getPartModel() +"_" + rbPartBaseInfo.getProducerID());
+			cstmt.setString(2,rbPartBaseInfo.getRbPartID());
 			cstmt.setString(3,rbPartBaseInfo.getPartModel());
 			cstmt.setString(4,rbPartBaseInfo.getPartBrand());
-			cstmt.setString(5,rbPartBaseInfo.getPartImagesAddress());
-			cstmt.setString(6,rbPartBaseInfo.getPartStatus());
-			cstmt.setString(7,rbPartBaseInfo.getRbPartBaseInfoRemark());
+			cstmt.setString(5,rbPartBaseInfo.getProducerID());
+			cstmt.setString(6,rbPartBaseInfo.getPartImagesAddress());
+			cstmt.setInt(7,rbPartBaseInfo.getPartStatus());
+			cstmt.setString(8,rbPartBaseInfo.getRbPartBaseInfoRemark());
 			cstmt.executeUpdate();
 			String flag = cstmt.getString(1);
 			if ("OK".equals(flag)) {
@@ -85,7 +86,7 @@ public class RBPartBaseInfoDaoImpl implements RBPartBaseInfoDao {
 				rbPartBaseInfo.setPartBrand(rs.getString("PartBrand"));
 				rbPartBaseInfo.setProducerID(rs.getString("ProducerID"));
 				rbPartBaseInfo.setPartImagesAddress(rs.getString("PartImagesAddress"));
-				rbPartBaseInfo.setPartStatus(rs.getString("PartStatus"));
+				rbPartBaseInfo.setPartStatus(Integer.parseInt(rs.getString("PartStatus")));
 				rbPartBaseInfo.setRbPartBaseInfoRemark(rs.getString("RBPartBaseInfoRemark"));
 				rbPartBaseInfoList.add(rbPartBaseInfo);
 			}
