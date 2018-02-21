@@ -94,6 +94,25 @@ public class AutoStylingDaoImpl implements AutoStylingDao {
 	}
 
 	@Override
+	public int listAutoStylingDataRawCount(String autoStylingName, String autoStylingBrand, PageEntity pageEntity) {
+		conn = DBPoolUtil.getConnection();
+		int result = 0;
+		try {
+			cstmt = conn.prepareCall("{call spSelectAutoStylingCountByNameOrBrand(?,?,?)}");
+			cstmt.registerOutParameter(1,Types.INTEGER);
+			cstmt.setString(2,autoStylingName);
+			cstmt.setString(3,autoStylingBrand);
+			cstmt.execute();
+			result = cstmt.getInt(1);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBPoolUtil.closeConnection(conn);
+		}
+		return result;
+	}
+
+	@Override
 	public List<AutoStyling> selectAutoStylingList(PageEntity pageEntity) {
 		List<AutoStyling> autoStylingList = new ArrayList();
 		try {

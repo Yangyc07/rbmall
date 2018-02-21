@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import qy.rb.common.Const;
 import qy.rb.common.ResponseCode;
 import qy.rb.common.ServerResponse;
+import qy.rb.domain.AutoStyling;
 import qy.rb.domain.Employee;
 import qy.rb.domain.PageEntity;
 import qy.rb.domain.PartBaseInfo;
@@ -52,6 +53,31 @@ public class PartBaseInfoManageController {
 			//增加处理基本信息的逻辑
 			PartBaseInfo partBaseInfo = new PartBaseInfo(partModel,partName,partSubtitle,partUnit,partCategoryID,partBaseInfoRemark);
 			return partBaseInfoService.insertPartBaseInfo(partBaseInfo);
+		} else {
+			return ServerResponse.createByErrorMessage("无权限操作,需要普通员工权限");
+		}
+	}
+
+	@RequestMapping("update_part_base_info.do")
+	@ResponseBody
+	public ServerResponse updateAutoStyling(
+			HttpSession session,
+			String partModel,
+			String partName,
+			String partSubtitle,
+			String partUnit,
+			String partCategoryID,
+			String partBaseInfoRemark) {
+		Employee employee = (Employee) session.getAttribute(Const.CURRENT_EMPLOYEE);
+		if (employee == null) {
+			return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录,请登录");
+		}
+		//校验一下是否是普通员工
+		if (Const.EmployeeRole.EMPLOYEEROLE_ORDINARY_CUSTOMER.equals(employee.getEmployeeType())) {
+			//是普通员工
+			//修改车型表的逻辑
+			PartBaseInfo partBaseInfo = new PartBaseInfo(partModel,partName,partSubtitle,partUnit,partCategoryID,partBaseInfoRemark);
+			return partBaseInfoService.updatePartBaseInfo(partBaseInfo);
 		} else {
 			return ServerResponse.createByErrorMessage("无权限操作,需要普通员工权限");
 		}

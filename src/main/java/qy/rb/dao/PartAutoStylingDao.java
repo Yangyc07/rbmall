@@ -2,6 +2,7 @@ package qy.rb.dao;
 
 import qy.rb.domain.PageEntity;
 import qy.rb.domain.PartAutoStyling;
+import qy.rb.domain.PartCategory;
 
 import java.util.List;
 
@@ -26,6 +27,13 @@ public interface PartAutoStylingDao {
 	 */
 	boolean deleteByPartAutoStylingModel(String partAutoStylingModel);
 
+	/**
+	 * 修改零件-车型联系
+	 * @param partAutoStyling
+	 * @return
+	 */
+	boolean updatePartAutoStyling(PartAutoStyling partAutoStyling);
+
 
 	/**
 	 * 返回零件-车型联系条数
@@ -48,8 +56,7 @@ public interface PartAutoStylingDao {
 	 * @param pageEntity
 	 * @return
 	 */
-	public List<PartAutoStyling> selectAutoStylingListByModelOrName(String partModel,String autoStylingName,PageEntity pageEntity);
-
+	public List<PartAutoStyling> selectPartAutoStylingListByModelOrName(String partModel,String autoStylingName,PageEntity pageEntity);
 
 
 

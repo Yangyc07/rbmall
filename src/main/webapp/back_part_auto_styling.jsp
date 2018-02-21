@@ -118,7 +118,7 @@
                     </form>
                 </div>
                 <div class="col-xs-5">
-                    <button class="btn btn-default" id="addPartCategory" type="button">添加</button>
+                    <button class="btn btn-default" id="addPartAutoStyling" type="button">添加</button>
                     <button class="btn btn-default" type="button">删除</button>
                 </div>
             </div>
@@ -134,6 +134,7 @@
                             <th>零件号</th>
                             <th>车型名称</th>
                             <th>零件车型备注</th>
+                            <th>修改</th>
                         </tr>
 
                         </thead>
@@ -147,6 +148,10 @@
                                 <td>${c.partModel}</td>
                                 <td>${c.autoStylingName}</td>
                                 <td align="center">${c.partAutoStylingRemark}</td>
+                                <td align="center">
+                                    <button class="btn btn-default"  id="updatePartAutoStyling"
+                                            onclick="update('${c.partModel}','${c.autoStylingName}','${c.partAutoStylingRemark}')" type="button">修改</button>
+                                </td>
                             </tr>
                         </c:forEach>
                         </tbody>
@@ -180,33 +185,31 @@
 
     var html = '<form class="am-form">\n' +
         '            <br>\n' +
-        '            <label for="username">类别编号:</label>\n' +
-        '            <input type="text"  id="partCategoryID"/>\n' +
+        '            <label for="username">零件号:</label>\n' +
+        '            <input type="text"  id="partModel"/>\n' +
         '            <br>\n' +
-        '            <label for="username">类别名称:</label>\n' +
-        '            <input type="text"  id="partCategoryName"/>\n' +
+        '            <label for="username">车型名称:</label>\n' +
+        '            <input type="text"  id="autoStylingName"/>\n' +
         '            <br>\n' +
-        '            <label for="password">类别备注:</label>\n' +
-        '            <input type="password" id="partCategoryRemark"/>\n' +
+        '            <label for="password">零件车型备注:</label>\n' +
+        '            <input type="text" id="partAutoStylingRemark"/>\n' +
         '        </form>';
 
     //弹出一个页面层
-    $('#addPartCategory').on('click', function(){
+    $('#addPartAutoStyling').on('click', function(){
         layer.open({
             type: 1,
             btn:['添加'],
             yes: function (index,layero) {
-                var partCategoryID = $(layero).find("#partCategoryID").val();
-
-                console.log(123);
-                var partCategoryName = $(layero).find("#partCategoryName").val();
-                var partCategoryRemark = $(layero).find("#partCategoryRemark").val();
+                var partModel = $(layero).find("#partModel").val();
+                var autoStylingName = $(layero).find("#autoStylingName").val();
+                var partAutoStylingRemark = $(layero).find("#partAutoStylingRemark").val();
                 $.ajax({
-                    url: "/manage/part_category/add_part_category.do",
+                    url: "/manage/part_auto_styling/add_part_auto_styling.do",
                     data: {
-                        partCategoryID:partCategoryID,
-                        partCategoryName: partCategoryName,
-                        partCategoryRemark: partCategoryRemark
+                        partModel:partModel,
+                        autoStylingName: autoStylingName,
+                        partAutoStylingRemark: partAutoStylingRemark
                     },
                     success: function(data) {
                         //成功
@@ -224,6 +227,52 @@
             content: html
         });
     });
+
+    //弹出修改页面层
+    function update(model,name,remark) {
+        layer.open({
+            type: 1,
+            btn:['修改'],
+            yes: function (index,layero) {
+                var partModel = $(layero).find("#partModel").val();
+                var autoStylingName = $(layero).find("#autoStylingName").val();
+                var partAutoStylingRemark = $(layero).find("#partAutoStylingRemark").val();
+                $.ajax({
+                    type:"post",
+                    url: "/manage/part_auto_styling/update_part_auto_styling.do",
+                    data: {
+                        partModel:partModel,
+                        autoStylingName: autoStylingName,
+                        partAutoStylingRemark: partAutoStylingRemark
+                    },
+                    success: function(data) {
+                        console.log(data.msg);
+                        //成功
+                        if(data.status === 0) {
+                            layer.msg(data.msg);//保存成功提示
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                        layer.closeAll('iframe');//关闭弹窗
+                    }
+                });
+            },
+            area: ['800px', '600px'],
+            shadeClose: false, //点击遮罩关闭
+            content: '<form class="am-form">\n' +
+            '            <br>\n' +
+            '            <label for="username">零件号:</label>\n' +
+            '            <input type="text" id="partModel" value="' + model + '" disabled>\n' +
+            '            <br>\n' +
+            '            <label for="username">车型名称:</label>\n' +
+            '            <input type="text" id="autoStylingName" value="' + name + '" />\n' +
+            '            <br>\n' +
+            '            <label for="password">零件车型备注:</label>\n' +
+            '            <input type="text" id="partAutoStylingRemark" value="' + remark + '" />\n' +
+            '        </form>'
+        });
+    }
+
 </script>
 
 </body>

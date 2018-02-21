@@ -59,6 +59,30 @@ public class ProducerDaoImpl implements ProducerDao {
 	}
 
 	@Override
+	public boolean updateProducer(Producer producer) {
+		boolean result = false;
+		conn = DBPoolUtil.getConnection();
+		try {
+			cstmt = conn.prepareCall("{call spUpdateProducerByID(?,?,?,?,?)}");
+			cstmt.registerOutParameter(1, Types.NVARCHAR);
+			cstmt.setString(2,producer.getProducerID());
+			cstmt.setString(3,producer.getProducerName());
+			cstmt.setInt(4,producer.getRankORDER());
+			cstmt.setString(5,producer.getProducerRemark());
+			cstmt.executeUpdate();
+			String flag = cstmt.getString(1);
+			if ("OK".equals(flag)) {
+				result = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBPoolUtil.closeConnection(conn);
+		}
+		return result;
+	}
+
+	@Override
 	public int listProducerDataRawCount(PageEntity pageEntity) {
 		conn = DBPoolUtil.getConnection();
 		int result = 0;

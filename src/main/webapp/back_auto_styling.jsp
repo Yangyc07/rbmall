@@ -105,14 +105,15 @@
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <div class="row">
                 <div class="col-xs-7">
-                    <form class="form-inline">
+                    <form class="form-inline" method="post" action="<%= request.getContextPath()%>/manage/auto_styling/search.do" name="searchForm" id="searchForm">
+
                         <div class="form-group">
-                            <label for="exampleInputName2">ID</label>
-                            <input type="text" class="form-control" id="exampleInputName2" placeholder="Jane Doe">
+                            <label for="exampleInputName2">车型名称</label>
+                            <input type="text" class="form-control" id="exampleInputName2" name="autoStylingName" placeholder="如:风神AX7">
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputEmail2">名称</label>
-                            <input type="test" class="form-control" id="exampleInputEmail2" placeholder="如：张三">
+                            <label for="exampleInputEmail2">车型品牌</label>
+                            <input type="test" class="form-control" id="exampleInputEmail2" name="autoStylingBrand" placeholder="如：东风风神">
                         </div>
                         <button type="submit" class="btn btn-default">搜索</button>
                     </form>
@@ -267,7 +268,7 @@
             content: '<form class="am-form">\n' +
             '            <br>\n' +
             '            <label for="username">车型名称:</label>\n' +
-            '            <input type="text"  id="autoStylingName" value="' + name + '"/>\n' +
+            '            <input type="text"  id="autoStylingName" value="' + name + '" disabled>\n' +
             '            <br>\n' +
             '            <label for="username">车型品牌:</label>\n' +
             '            <input type="text"  id="autoStylingBrand" value="'+ brand +'"/>\n' +

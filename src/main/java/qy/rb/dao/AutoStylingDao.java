@@ -40,6 +40,14 @@ public interface AutoStylingDao {
 	 */
 	int listAutoStylingDataRawCount(PageEntity pageEntity);
 
+	/**
+	 * 返回车型信息条数 模糊查询
+	 * @param autoStylingName
+	 * @param autoStylingBrand
+	 * @param pageEntity
+	 * @return
+	 */
+	int listAutoStylingDataRawCount(String autoStylingName, String autoStylingBrand, PageEntity pageEntity);
 
 	/**
 	 * 查询车型信息清单
@@ -56,5 +64,4 @@ public interface AutoStylingDao {
 	 * @return
 	 */
 	public List<AutoStyling> selectAutoStylingListByNameOrBrand(String autoStylingName,String autoStylingBrand,PageEntity pageEntity);
-
 }

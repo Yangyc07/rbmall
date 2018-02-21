@@ -138,7 +138,7 @@
                             <th>零件单位</th>
                             <th>零件所属类别编号</th>
                             <th>零件基本信息备注</th>
-
+                            <th>操作</th>
                         </tr>
 
                         </thead>
@@ -155,6 +155,11 @@
                                 <td align="center">${c.partUnit}</td>
                                 <td align="center">${c.partCategoryId}</td>
                                 <td align="center">${c.partBaseInfoRemark}</td>
+                                <td align="center">
+                                    <button class="btn btn-default"  id="update"
+                                            onclick="update('${c.partModel}','${c.partName}','${c.partSubtitle}'
+                                                    ,'${c.partUnit}','${c.partCategoryId}','${c.partBaseInfoRemark}')" type="button">修改</button>
+                                </td>
                             </tr>
                         </c:forEach>
                         </tbody>
@@ -220,7 +225,7 @@
                 var partCategoryID = $(layero).find("#PartCategoryID").val();
                 var partBaseInfoRemark = $(layero).find("#PartBaseInfoRemark").val();
                 $.ajax({
-                    url: "/manage/part_category/add_part_base_info.do",
+                    url: "/manage/part_base_info/add_part_base_info.do",
                     data: {
                         partModel:partModel,
                         partName: partName,
@@ -245,6 +250,67 @@
             content: html
         });
     });
+
+
+
+    //弹出修改页面层
+    function update(model,name,subtitle,unit,catrgoryID,remark) {
+        layer.open({
+            type: 1,
+            btn:['修改'],
+            yes: function (index,layero) {
+                var partModel = $(layero).find("#PartModel").val();
+                var partName = $(layero).find("#PartName").val();
+                var partSubtitle = $(layero).find("#PartSubtitle").val();
+                var partUnit = $(layero).find("#PartUnit").val();
+                var partCategoryID = $(layero).find("#PartCategoryID").val();
+                var partBaseInfoRemark = $(layero).find("#PartBaseInfoRemark").val();
+                $.ajax({
+                    type: "post",
+                    url: "/manage/part_base_info/update_part_base_info.do",
+                    data: {
+                        partModel:partModel,
+                        partName: partName,
+                        partSubtitle: partSubtitle,
+                        partUnit: partUnit,
+                        partCategoryID: partCategoryID,
+                        partBaseInfoRemark: partBaseInfoRemark
+                    },
+                    success: function(data) {
+                        //成功
+                        if(data.status === 0) {
+                            layer.msg(data.msg);//修改成功提示
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                        layer.closeAll('iframe');//关闭弹窗
+                    }
+                });
+            },
+            area: ['800px', '600px'],
+            shadeClose: false, //点击遮罩关闭
+            content:'<form class="am-form">\n' +
+            '            <br>\n' +
+            '            <label for="username">零件号:</label>\n' +
+            '            <input type="text"  id="PartModel" value="' + model + '" disabled>\n' +
+            '            <br>\n' +
+            '            <label for="username">零件名称:</label>\n' +
+            '            <input type="text"  id="PartName" value="' + name + '"/>\n' +
+            '            <br>\n' +
+            '            <label for="password">零件副标题:</label>\n' +
+            '            <input type="text" id="PartSubtitle" value="' + subtitle + '"/>\n' +
+            '            <br>\n' +
+            '            <label for="password">零件单位:</label>\n' +
+            '            <input type="text" id="PartUnit" value="' + unit + '"/>\n' +
+            '            <br>\n' +
+            '            <label for="password">零件所属类别编号:</label>\n' +
+            '            <input type="text" id="PartCategoryID" value="' + catrgoryID + '"/>\n' +
+            '            <br>\n' +
+            '            <label for="password">零件基本信息备注:</label>\n' +
+            '            <input type="text" id="PartBaseInfoRemark" value="' + remark + '"/>\n' +
+            '        </form>'
+        });
+    }
 </script>
 
 </body>

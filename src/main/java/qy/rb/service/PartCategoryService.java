@@ -34,7 +34,7 @@ public interface PartCategoryService {
 	 */
 	ServerResponse<List<PartCategory>> getChildrenPartCategory(String partCategoryId);
 
-	public Pagenation selectPartCategoryList(PageEntity pageEntity);
+	Pagenation selectPartCategoryList(PageEntity pageEntity);
 
 	Pagenation selectPartCategoryListByIdOrName(String partCategoryId,String partCategoryName,PageEntity pageEntity);
 

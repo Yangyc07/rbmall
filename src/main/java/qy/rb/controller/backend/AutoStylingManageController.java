@@ -85,5 +85,18 @@ public class AutoStylingManageController {
 	}
 
 
+	@RequestMapping(value = "/search.do")
+	public String searchList(ModelMap modelMap,@RequestParam(value = "pageNum", defaultValue = "1")int pageNum
+			,String autoStylingName, String autoStylingBrand) {
+		PageEntity pageEntity = new PageEntity();
+		pageEntity.setPageNum(pageNum);
+		Pagenation pagenation = autoStylingService.selectAutoStylingListByNameOrBrand(autoStylingName,autoStylingBrand,pageEntity);
+		pagenation.setQueryUrl("/manage/auto_styling/search.do?");
+		modelMap.addAttribute("pagenation", pagenation);
+		return "back_auto_styling";
+	}
+
+
+
 
 }

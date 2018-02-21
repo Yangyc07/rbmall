@@ -1,6 +1,7 @@
 package qy.rb.dao;
 
 import qy.rb.domain.PageEntity;
+import qy.rb.domain.PartAutoStyling;
 import qy.rb.domain.PartBaseInfo;
 
 import java.util.List;
@@ -25,6 +26,14 @@ public interface PartBaseInfoDao {
 	 * @return
 	 */
 	boolean deleteByPartBaseInfoName(String partBaseInfoName);
+
+
+	/**
+	 * 修改基本零件信息
+	 * @param partBaseInfo
+	 * @return
+	 */
+	boolean updatePartBaseInfo(PartBaseInfo partBaseInfo);
 
 
 	/**

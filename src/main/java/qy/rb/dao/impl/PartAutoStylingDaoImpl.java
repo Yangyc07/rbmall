@@ -54,6 +54,29 @@ public class PartAutoStylingDaoImpl implements PartAutoStylingDao {
 	}
 
 	@Override
+	public boolean updatePartAutoStyling(PartAutoStyling partAutoStyling) {
+		boolean result = false;
+		conn = DBPoolUtil.getConnection();
+		try {
+			cstmt = conn.prepareCall("{call spUpdatePartAutoStylingByModel(?,?,?,?)}");
+			cstmt.registerOutParameter(1, Types.NVARCHAR);
+			cstmt.setString(2,partAutoStyling.getPartModel());
+			cstmt.setString(3,partAutoStyling.getAutoStylingName());
+			cstmt.setString(4,partAutoStyling.getPartAutoStylingRemark());
+			cstmt.executeUpdate();
+			String flag = cstmt.getString(1);
+			if ("OK".equals(flag)) {
+				result = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBPoolUtil.closeConnection(conn);
+		}
+		return result;
+	}
+
+	@Override
 	public int listPartAutoStylingDataRawCount(PageEntity pageEntity) {
 		conn = DBPoolUtil.getConnection();
 		int result = 0;
@@ -94,8 +117,10 @@ public class PartAutoStylingDaoImpl implements PartAutoStylingDao {
 		return partAutoStylingList;
 	}
 
+
+
 	@Override
-	public List<PartAutoStyling> selectAutoStylingListByModelOrName(String partModel, String autoStylingName, PageEntity pageEntity) {
+	public List<PartAutoStyling> selectPartAutoStylingListByModelOrName(String partModel, String autoStylingName, PageEntity pageEntity) {
 		List<PartAutoStyling> partAutoStylingList = new ArrayList<>();
 		try {
 			conn = DBPoolUtil.getConnection();

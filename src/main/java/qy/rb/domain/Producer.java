@@ -57,6 +57,12 @@ public class Producer {
 		this.producerRemark = producerRemark;
 	}
 
+	public Producer(String producerID, String producerName, String producerRemark) {
+		this.producerID = producerID;
+		this.producerName = producerName;
+		this.producerRemark = producerRemark;
+	}
+
 	public Producer(String producerID, String producerName, int rankORDER, String producerRemark) {
 		this.producerID = producerID;
 		this.producerName = producerName;

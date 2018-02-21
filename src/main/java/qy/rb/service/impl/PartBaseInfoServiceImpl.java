@@ -68,8 +68,17 @@ public class PartBaseInfoServiceImpl implements PartBaseInfoService {
 	public ServerResponse insertPartBaseInfo(PartBaseInfo partBaseInfo) {
 		boolean flag = partBaseInfoDao.insertPartBaseInfo(partBaseInfo);
 		if (flag) {
-			return ServerResponse.createBySuccess("添加成功");
+			return ServerResponse.createBySuccessMessage("添加成功");
 		}
 		return ServerResponse.createByErrorMessage("添加失败");
+	}
+
+	@Override
+	public ServerResponse updatePartBaseInfo(PartBaseInfo partBaseInfo) {
+		boolean flag = partBaseInfoDao.updatePartBaseInfo(partBaseInfo);
+		if (flag) {
+			return ServerResponse.createBySuccessMessage("修改成功");
+		}
+		return ServerResponse.createByErrorMessage("修改失败");
 	}
 }

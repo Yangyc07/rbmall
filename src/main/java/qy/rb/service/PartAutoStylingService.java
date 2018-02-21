@@ -17,4 +17,7 @@ public interface PartAutoStylingService {
 
 	ServerResponse insertPartAutoStyling(PartAutoStyling partAutoStyling);
 
+
+	ServerResponse updatePartAutoStyling(PartAutoStyling partAutoStyling);
+
 }

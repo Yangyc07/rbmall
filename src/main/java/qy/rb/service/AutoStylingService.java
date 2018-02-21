@@ -32,4 +32,9 @@ public interface AutoStylingService {
 	ServerResponse updateAutoStyling(AutoStyling autoStyling);
 
 
+	Pagenation selectAutoStylingListByNameOrBrand(String autoStylingName,String autoStylingBrand,PageEntity pageEntity);
+
+
+
+
 }

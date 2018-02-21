@@ -134,6 +134,7 @@
                             <th>生产商代码</th>
                             <th>生产商简称</th>
                             <th>生产商备注</th>
+                            <th>操作</th>
                         </tr>
 
                         </thead>
@@ -147,6 +148,10 @@
                                 <td>${c.producerID}</td>
                                 <td>${c.producerName}</td>
                                 <td align="center">${c.producerRemark}</td>
+                                <td align="center">
+                                    <button class="btn btn-default"  id="updateProducer"
+                                            onclick="update('${c.producerID}','${c.producerName}','${c.producerRemark}')" type="button">修改</button>
+                                </td>
                             </tr>
                         </c:forEach>
                         </tbody>
@@ -180,14 +185,14 @@
 
     var html = '<form class="am-form">\n' +
         '            <br>\n' +
-        '            <label for="username">类别编号:</label>\n' +
-        '            <input type="text"  id="partCategoryID"/>\n' +
+        '            <label for="username">生产商编号:</label>\n' +
+        '            <input type="text"  id="producerID"/>\n' +
         '            <br>\n' +
-        '            <label for="username">类别名称:</label>\n' +
-        '            <input type="text"  id="partCategoryName"/>\n' +
+        '            <label for="username">生产商名称:</label>\n' +
+        '            <input type="text"  id="producerName"/>\n' +
         '            <br>\n' +
-        '            <label for="password">类别备注:</label>\n' +
-        '            <input type="password" id="partCategoryRemark"/>\n' +
+        '            <label for="password">生产商备注:</label>\n' +
+        '            <input type="password" id="producerRemark"/>\n' +
         '        </form>';
 
     //弹出一个页面层
@@ -196,17 +201,15 @@
             type: 1,
             btn:['添加'],
             yes: function (index,layero) {
-                var partCategoryID = $(layero).find("#partCategoryID").val();
-
-                console.log(123);
-                var partCategoryName = $(layero).find("#partCategoryName").val();
-                var partCategoryRemark = $(layero).find("#partCategoryRemark").val();
+                var producerID = $(layero).find("#producerID").val();
+                var producerName = $(layero).find("#producerName").val();
+                var producerRemark = $(layero).find("#producerRemark").val();
                 $.ajax({
-                    url: "/manage/part_category/add_part_category.do",
+                    url: "/manage/producer/add_producer.do",
                     data: {
-                        partCategoryID:partCategoryID,
-                        partCategoryName: partCategoryName,
-                        partCategoryRemark: partCategoryRemark
+                        producerID:producerID,
+                        producerName: producerName,
+                        producerRemark: producerRemark
                     },
                     success: function(data) {
                         //成功
@@ -224,6 +227,51 @@
             content: html
         });
     });
+
+
+    //弹出修改页面层
+    function update(id,name,remark) {
+        layer.open({
+            type: 1,
+            btn:['修改'],
+            yes: function (index,layero) {
+                var producerID = $(layero).find("#producerID").val();
+                var producerName = $(layero).find("#producerName").val();
+                var producerRemark = $(layero).find("#producerRemark").val();
+                $.ajax({
+                    url: "/manage/producer/update_producer.do",
+                    data: {
+                        producerID:producerID,
+                        producerName: producerName,
+                        producerRemark: producerRemark
+                    },
+                    success: function(data) {
+                        console.log(data.msg);
+                        //成功
+                        if(data.status === 0) {
+                            layer.msg(data.msg);//保存成功提示
+                        } else {
+                            layer.msg(data.msg);
+                        }
+                        layer.closeAll('iframe');//关闭弹窗
+                    }
+                });
+            },
+            area: ['800px', '600px'],
+            shadeClose: false, //点击遮罩关闭
+            content: '<form class="am-form">\n' +
+            '            <br>\n' +
+            '            <label for="username">生产商编号:</label>\n' +
+            '            <input type="text"  id="producerID" value="' + id + '" disabled>\n' +
+            '            <br>\n' +
+            '            <label for="username">生产商名称:</label>\n' +
+            '            <input type="text"  id="producerName" value="' + name + '"/>\n' +
+            '            <br>\n' +
+            '            <label for="password">生产商备注:</label>\n' +
+            '            <input type="password" id="producerRemark" value="' + remark + '"/>\n' +
+            '        </form>'
+        });
+    }
 </script>
 
 </body>

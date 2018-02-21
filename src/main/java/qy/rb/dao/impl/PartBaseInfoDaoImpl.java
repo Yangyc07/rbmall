@@ -58,6 +58,32 @@ public class PartBaseInfoDaoImpl implements PartBaseInfoDao {
 	}
 
 	@Override
+	public boolean updatePartBaseInfo(PartBaseInfo partBaseInfo) {
+		boolean result = false;
+		conn = DBPoolUtil.getConnection();
+		try {
+			cstmt = conn.prepareCall("{call spUpdatePartBaseInfoByModel(?,?,?,?,?,?,?)}");
+			cstmt.registerOutParameter(1, Types.NVARCHAR);
+			cstmt.setString(2,partBaseInfo.getPartModel());
+			cstmt.setString(3,partBaseInfo.getPartName());
+			cstmt.setString(4,partBaseInfo.getPartSubtitle());
+			cstmt.setString(5,partBaseInfo.getPartUnit());
+			cstmt.setString(6,partBaseInfo.getPartCategoryId());
+			cstmt.setString(7,partBaseInfo.getPartBaseInfoRemark());
+			cstmt.executeUpdate();
+			String flag = cstmt.getString(1);
+			if ("OK".equals(flag)) {
+				result = true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBPoolUtil.closeConnection(conn);
+		}
+		return result;
+	}
+
+	@Override
 	public int listPartBaseInfoDataRawCount(PageEntity pageEntity) {
 		conn = DBPoolUtil.getConnection();
 		int result = 0;

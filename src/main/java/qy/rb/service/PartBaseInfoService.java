@@ -1,6 +1,7 @@
 package qy.rb.service;
 
 import qy.rb.common.ServerResponse;
+import qy.rb.domain.AutoStyling;
 import qy.rb.domain.PageEntity;
 import qy.rb.domain.PartBaseInfo;
 import qy.rb.util.Pagenation;
@@ -34,7 +35,12 @@ public interface PartBaseInfoService {
 	 */
 	ServerResponse insertPartBaseInfo(PartBaseInfo partBaseInfo);
 
-
+	/**
+	 * 修改基本信息
+	 * @param partBaseInfo
+	 * @return
+	 */
+	ServerResponse updatePartBaseInfo(PartBaseInfo partBaseInfo);
 
 
 }

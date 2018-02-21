@@ -9,10 +9,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import qy.rb.common.Const;
 import qy.rb.common.ResponseCode;
 import qy.rb.common.ServerResponse;
-import qy.rb.domain.Employee;
-import qy.rb.domain.PageEntity;
-import qy.rb.domain.PartAutoStyling;
-import qy.rb.domain.PartCategory;
+import qy.rb.domain.*;
 import qy.rb.service.PartAutoStylingService;
 import qy.rb.util.Pagenation;
 
@@ -42,7 +39,7 @@ public class PartAutoStylingController {
 		return "back_part_auto_styling";
 	}
 
-	@RequestMapping("add_part_category.do")
+	@RequestMapping("add_part_auto_styling.do")
 	@ResponseBody
 	public ServerResponse addPartAutoStyling(
 			HttpSession session,
@@ -63,4 +60,28 @@ public class PartAutoStylingController {
 			return ServerResponse.createByErrorMessage("无权限操作,需要普通员工权限");
 		}
 	}
+
+	@RequestMapping("update_part_auto_styling.do")
+	@ResponseBody
+	public ServerResponse updatePartAutoStyling(
+			HttpSession session,
+			String partModel,
+			String autoStylingName,
+			String partAutoStylingRemark) {
+		Employee employee = (Employee) session.getAttribute(Const.CURRENT_EMPLOYEE);
+		if (employee == null) {
+			return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录,请登录");
+		}
+		//校验一下是否是普通员工
+		if (Const.EmployeeRole.EMPLOYEEROLE_ORDINARY_CUSTOMER.equals(employee.getEmployeeType())) {
+			//是普通员工
+			//修改车型表的逻辑
+			PartAutoStyling partAutoStyling = new PartAutoStyling(partModel,autoStylingName,partAutoStylingRemark);
+			return partAutoStylingService.updatePartAutoStyling(partAutoStyling);
+		} else {
+			return ServerResponse.createByErrorMessage("无权限操作,需要普通员工权限");
+		}
+	}
+
+
 }

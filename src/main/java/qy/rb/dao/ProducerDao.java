@@ -27,6 +27,14 @@ public interface ProducerDao {
 	boolean deleteByProducerName(String producerName);
 
 	/**
+	 * 更新生产商
+	 * @param producer
+	 * @return
+	 */
+	boolean updateProducer(Producer producer);
+
+
+	/**
 	 * 返回生成商信息条数
 	 * @param pageEntity
 	 * @return
