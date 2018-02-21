@@ -32,7 +32,7 @@ public class ProducerDaoImpl implements ProducerDao {
 		boolean result = false;
 		conn = DBPoolUtil.getConnection();
 		try {
-			cstmt = conn.prepareCall("{call spInsertProducer(?,?,?,?)}");
+			cstmt = conn.prepareCall("{call spInsertProducer(?,?,?,?,?)}");
 			cstmt.registerOutParameter(1, Types.NVARCHAR);
 			cstmt.setString(2,producer.getProducerID());
 			cstmt.setString(3,producer.getProducerName());

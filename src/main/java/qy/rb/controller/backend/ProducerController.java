@@ -65,6 +65,28 @@ public class ProducerController {
 	}
 
 
+	@RequestMapping("update_producer.do")
+	@ResponseBody
+	public ServerResponse updateProducer(
+			HttpSession session,
+			String producerID,
+			String producerName ,
+			String producerRemark) {
+		Employee employee = (Employee) session.getAttribute(Const.CURRENT_EMPLOYEE);
+		if (employee == null) {
+			return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录,请登录");
+		}
+		//校验一下是否是普通员工
+		if (Const.EmployeeRole.EMPLOYEEROLE_ORDINARY_CUSTOMER.equals(employee.getEmployeeType())) {
+			//是普通员工
+			//增加生产商表的逻辑
+			Producer producer = new Producer(producerID,producerName,producerRemark);
+			return producerService.updateProducer(producer);
+		} else {
+			return ServerResponse.createByErrorMessage("无权限操作,需要普通员工权限");
+		}
+	}
+
 
 
 

@@ -122,7 +122,9 @@
                     <button class="btn btn-default" id="addPartBaseInfo" type="button">添加</button>
                     <button class="btn btn-default" type="button">删除</button>
                 </div>
+
             </div>
+
             <br>
             <div class="row">
                 <div class="col-md-10">

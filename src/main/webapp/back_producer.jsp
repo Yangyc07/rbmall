@@ -192,7 +192,7 @@
         '            <input type="text"  id="producerName"/>\n' +
         '            <br>\n' +
         '            <label for="password">生产商备注:</label>\n' +
-        '            <input type="password" id="producerRemark"/>\n' +
+        '            <input type="text" id="producerRemark"/>\n' +
         '        </form>';
 
     //弹出一个页面层
@@ -205,6 +205,7 @@
                 var producerName = $(layero).find("#producerName").val();
                 var producerRemark = $(layero).find("#producerRemark").val();
                 $.ajax({
+                    type: "post",
                     url: "/manage/producer/add_producer.do",
                     data: {
                         producerID:producerID,
@@ -239,6 +240,7 @@
                 var producerName = $(layero).find("#producerName").val();
                 var producerRemark = $(layero).find("#producerRemark").val();
                 $.ajax({
+                    type:"post",
                     url: "/manage/producer/update_producer.do",
                     data: {
                         producerID:producerID,
@@ -268,7 +270,7 @@
             '            <input type="text"  id="producerName" value="' + name + '"/>\n' +
             '            <br>\n' +
             '            <label for="password">生产商备注:</label>\n' +
-            '            <input type="password" id="producerRemark" value="' + remark + '"/>\n' +
+            '            <input type="text" id="producerRemark" value="' + remark + '"/>\n' +
             '        </form>'
         });
     }

@@ -1,7 +1,9 @@
 package qy.rb.service.impl;
 
 import org.springframework.stereotype.Service;
+import qy.rb.common.ServerResponse;
 import qy.rb.dao.RBPartBaseInfoDao;
+import qy.rb.domain.AutoStyling;
 import qy.rb.domain.PageEntity;
 import qy.rb.domain.RBPartBaseInfo;
 import qy.rb.service.RBPartBaseInfoService;
@@ -33,4 +35,20 @@ public class RBPartBaseInfoServiceImpl implements RBPartBaseInfoService {
 		pagenation.setList(rbPartBaseInfoDao.selectRBPartBaseInfoList(pageEntity));
 		return pagenation;
 	}
+
+	@Override
+	public ServerResponse insertRBPartBaseInfo(RBPartBaseInfo rbPartBaseInfo) {
+
+		if (rbPartBaseInfo != null) {
+			boolean flag = rbPartBaseInfoDao.insertRBPartBaseInfo(rbPartBaseInfo);
+			if (flag) {
+				return ServerResponse.createBySuccess("添加成功");
+			} else {
+				return ServerResponse.createByErrorMessage("添加失败");
+			}
+		}
+		return ServerResponse.createByErrorMessage("添加参数不正确");
+	}
+
+
 }

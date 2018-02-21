@@ -122,6 +122,11 @@
                     <button class="btn btn-default" type="button">删除</button>
                 </div>
             </div>
+            springmvc上传文件
+            <form name="form1" action="<%= request.getContextPath()%>/manage/rb_part_base_info/upload.do" method="post" enctype="multipart/form-data">
+                <input type="file" name="upload_file" />
+                <input type="submit" value="springmvc上传文件" />
+            </form>
             <br>
             <div class="row">
                 <div class="col-md-10">
