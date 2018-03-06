@@ -67,9 +67,12 @@ public class RBPartBaseInfoController {
 		if (Const.EmployeeRole.EMPLOYEEROLE_ORDINARY_CUSTOMER.equals(employee.getEmployeeType())) {
 			//是普通员工
 			//上传文件
+			String rbPartID =  new StringBuilder().append("RB_").append(partModel).append("_").append(producerID).toString();
+
+
 			String path = request.getSession().getServletContext().getRealPath(
 					"upload");
-			String targetFileName = fileService.upload(partImagesAddress,path,partModel);
+			String targetFileName = fileService.upload(partImagesAddress,path,rbPartID);
 			String url = PropertiesUtil.getProperty("ftp.server.http.prefix")+targetFileName;
 
 			Map fileMap = Maps.newHashMap();
@@ -77,7 +80,6 @@ public class RBPartBaseInfoController {
 			fileMap.put("url",url);
 
 
-			String rbPartID =  new StringBuilder().append("RB_").append(partModel).append("_").append(producerID).toString();
 
 
 			RBPartBaseInfo rbPartBaseInfo = new RBPartBaseInfo(rbPartID,partModel,partBrand,producerID

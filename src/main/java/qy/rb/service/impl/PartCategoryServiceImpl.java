@@ -14,7 +14,10 @@ import qy.rb.util.Pagenation;
 
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author hjy
@@ -100,6 +103,23 @@ public class PartCategoryServiceImpl implements PartCategoryService {
 		pagenation.setList(partCategoryDao.selectPartCategoryListByIdOrName(partCategoryId, partCategoryName, pageEntity));
 		return pagenation;
 	}
+
+	@Override
+	public Map<String, Map<String, Map<String, Map>>> showPartCategory(List<PartCategory> partCategoryList) {
+
+
+
+
+		return null;
+	}
+
+	public static void main(String[] args) {
+		Map<String,Map<String,String>> category = new HashMap<String, Map<String, String>>();
+
+
+
+	}
+
 
 
 }

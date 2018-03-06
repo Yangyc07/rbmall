@@ -7,6 +7,7 @@ import qy.rb.util.Pagenation;
 
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author hjy
@@ -37,5 +38,11 @@ public interface PartCategoryService {
 	Pagenation selectPartCategoryList(PageEntity pageEntity);
 
 	Pagenation selectPartCategoryListByIdOrName(String partCategoryId,String partCategoryName,PageEntity pageEntity);
+
+	/**
+	 * 三层
+	 */
+	public Map<String,Map<String,Map<String,Map>>> showPartCategory(List<PartCategory> partCategoryList);
+
 
 }

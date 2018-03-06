@@ -275,7 +275,10 @@
             '            <br>\n' +
             '            <label for="password">车型备注:</label>\n' +
             '            <input type="text" id="autoStylingRemark" value="'+remark+'"/>\n' +
-            '        </form>'
+            '        </form>',
+            end: function () {
+                location.reload();
+            }
         });
     }
 </script>

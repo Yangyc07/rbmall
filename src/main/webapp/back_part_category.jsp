@@ -227,7 +227,10 @@
             },
             area: ['800px', '600px'],
             shadeClose: false, //点击遮罩关闭
-            content: html
+            content: html,
+            end: function () {
+                location.reload();
+            }
         });
     });
 
@@ -272,7 +275,10 @@
             '            <br>\n' +
             '            <label for="password">类别备注:</label>\n' +
             '            <input type="text" id="partCategoryRemark" value="'+ remark +'" />\n' +
-            '        </form>'
+            '        </form>',
+            end: function () {
+                location.reload();
+            }
         });
     }
 
