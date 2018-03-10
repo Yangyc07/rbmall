@@ -2,6 +2,7 @@ package qy.rb.service;
 
 import qy.rb.domain.PageEntity;
 import qy.rb.util.Pagenation;
+import qy.rb.vo.BaseInfoDetail;
 
 /**
  * @author hjy
@@ -9,7 +10,10 @@ import qy.rb.util.Pagenation;
  **/
 public interface BaseInfoService {
 
-	Pagenation selcetPortalBaseInfoByPartNameOrAutoStylingName(String partName, String autoStylingName, PageEntity pageEntity);
+	Pagenation selectPortalBaseInfoByPartNameOrAutoStylingName(String partName, String autoStylingName, PageEntity pageEntity);
+
+
+	BaseInfoDetail selectBaseInfoDetailByrbPartID(String rbPartID);
 
 
 
