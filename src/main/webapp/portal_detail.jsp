@@ -1,12 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%--
-    Document   : portal_details
-    Created on : 2018-3-10, 9:29:33
-    Author     : Administrator
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
+<%String path = request.getContextPath();%>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -284,7 +278,7 @@
                     </div>
                     <!--购物车-->
                     <div class="shop_car">
-                        <input type="button" id="ShoppingCart" value="加入购物车"  class="bolder"/>
+                        <input type="button" id="insertShoppingCart" value="加入购物车"  class="bolder"/>
                     </div>
                 </div>
                 <!--详细介绍-->
@@ -324,6 +318,31 @@
     $('.num').click(function(){
         index=$(this).index('.num');
         $('.carousel').carousel(index);
+    });
+</script>
+<script>
+    $("#insertShoppingCart").click(function () {
+        //货物ID
+        var rbID = $("#rbPartID").val();
+        //购买数量
+        var count = $("#count").val();
+
+        $.ajax({
+            type: "post",
+            url: "<%=path%>/customer/baseInfo/insertShoppingCart.do",
+            data : {
+                rbPartID:rbID,
+                count:count
+            },
+            success: function (data) {
+                //添加成功
+                if (data.status === 0) {
+                    alert("添加成功！");
+                } else {
+                    alert("添加失败！");
+                }
+            }
+        });
     });
 </script>
 </html>

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import qy.rb.common.Const;
+import qy.rb.common.ResponseCode;
 import qy.rb.common.ServerResponse;
 import qy.rb.dao.CustomerDao;
 import qy.rb.domain.Customer;
@@ -108,6 +109,18 @@ public class CustomerController {
     @ResponseBody
     public ServerResponse<String> forgetRestPassword(String username,String passwordNew,String forgetToken){
         return customerService.forgetResetPassword(username,passwordNew,forgetToken);
+    }
+
+
+    @RequestMapping(value = "check.do",method = RequestMethod.POST)
+    @ResponseBody
+    public ServerResponse<String> check(HttpSession session) {
+        Customer customer = (Customer)session.getAttribute(Const.CURRENT_CUSTOMER);
+        if (customer == null) {
+            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录,请登录");
+        }
+        return ServerResponse.createBySuccessMessage("已经登录");
+
     }
 
 
