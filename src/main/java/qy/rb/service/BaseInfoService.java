@@ -16,5 +16,6 @@ public interface BaseInfoService {
 	BaseInfoDetail selectBaseInfoDetailByrbPartID(String rbPartID);
 
 
+	Pagenation selectPortalBaseInfoByPartCategoryName( String partCategoryName, PageEntity pageEntity);
 
 }

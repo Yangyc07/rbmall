@@ -1,5 +1,6 @@
 package qy.rb.controller.portal;
 
+import org.junit.Test;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import qy.rb.util.Pagenation;
 import qy.rb.vo.BaseInfoDetail;
 
 import javax.annotation.Resource;
+import java.io.UnsupportedEncodingException;
 
 /**
  * @author hjy
@@ -18,12 +20,31 @@ import javax.annotation.Resource;
  **/
 
 @Controller
-@RequestMapping("/customer/")
+@RequestMapping("/customer")
 public class BaseInfoController {
 
 	@Resource
 	private BaseInfoService baseInfoService;
 
+
+	@RequestMapping(value = "/baseInfo/category/list.do")
+	public String baseInfoCategoryList(ModelMap modelMap, @RequestParam(value = "pageNum", defaultValue = "1")int pageNum,
+							   String partCategoryName) {
+		System.out.println(partCategoryName);
+		try {
+			partCategoryName  = new String(partCategoryName.getBytes("ISO-8859-1"),"UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		System.out.println(partCategoryName);
+
+		PageEntity pageEntity = new PageEntity();
+		pageEntity.setPageNum(pageNum);
+		Pagenation pagenation = baseInfoService.selectPortalBaseInfoByPartCategoryName(partCategoryName,pageEntity);
+		modelMap.addAttribute("pagenation", pagenation);
+		pagenation.setQueryUrl("/baseInfo/category/list.do？");
+		return "portal_index";
+	}
 
 
 

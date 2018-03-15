@@ -33,6 +33,11 @@ public class ShoppingCartController {
 		if (customer == null) {
 			return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(),"用户未登录,请登录");
 		}
+		//判断是否购物车中已经存在此商品
+		if(shoppingCartService.checkShoppingCart(rbBasePartID,customer.getCustomerID())) {
+			return ServerResponse.createByErrorMessage("此商品已在您的购物车中存在！");
+		}
+
 		return shoppingCartService.insertShoppingCart(rbBasePartID,count,customer.getCustomerID());
 	}
 
@@ -42,4 +47,9 @@ public class ShoppingCartController {
 		Customer customer = (Customer) session.getAttribute(Const.CURRENT_CUSTOMER);
 		return  shoppingCartService.showShoppingCartByCustomerID(customer.getCustomerID());
 	}
+
+
+
+
+
 }

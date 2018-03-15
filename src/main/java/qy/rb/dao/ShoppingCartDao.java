@@ -1,6 +1,7 @@
 package qy.rb.dao;
 
 import qy.rb.common.ServerResponse;
+import qy.rb.domain.ShoppingCart;
 
 import java.util.List;
 
@@ -28,9 +29,19 @@ public interface ShoppingCartDao {
 	boolean delete(String rbBaseInfoID,String customerID);
 
 
+	/**
+	 * 显示购物车列表
+	 * @param customerID 用户ID
+	 * @return
+	 */
+	List<ShoppingCart> showShoppingCartList(String customerID);
 
-	List show(String customerID);
 
-
-
+	/**
+	 * 检查这个物品是否在购物车中是否存在
+	 * @param rbBasePartID 睿邦零件ID
+	 * @param customerID  用户ID
+	 * @return
+	 */
+	boolean check(String rbBasePartID, String customerID);
 }

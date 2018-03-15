@@ -1,6 +1,6 @@
 <!--<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="common/tag.jsp"%>
-<%String path = request.getContextPath();%>-->
+<%String path = request.getContextPath();%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -520,7 +520,7 @@
             <div class="containor">
                 <div class="nav_left">
                     <ul>
-                        <li data-id="1"> <span>发动机系统</span></li>
+                        <li data-id="1"> <span><a href="<%= request.getContextPath()%>/customer/baseInfo/category/list.do?partCategoryName=空气滤清器">发动机系统</a></span></li>
                         <li data-id="2"> <span>进排气系统</span></li>
                         <li data-id="3"> <span>点火系统 </span></li>
                         <li data-id="4"> <span>传动系统 </span></li>

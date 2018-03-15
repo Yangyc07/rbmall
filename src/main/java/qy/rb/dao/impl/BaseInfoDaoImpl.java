@@ -1,9 +1,11 @@
 package qy.rb.dao.impl;
 
+import org.junit.Test;
 import org.springframework.stereotype.Repository;
 import qy.rb.dao.BaseInfoDao;
 import qy.rb.domain.PageEntity;
 import qy.rb.util.DBPoolUtil;
+import qy.rb.util.Pagenation;
 import qy.rb.vo.BaseInfo;
 import qy.rb.vo.BaseInfoDetail;
 
@@ -61,7 +63,7 @@ public class BaseInfoDaoImpl implements BaseInfoDao {
 			cstmt.setString(1, rbPartID);
 			rs = cstmt.executeQuery();
 			rs.next();
-			baseInfoDetail.setRbPartID(rs.getString("RBPartID"));;
+			baseInfoDetail.setRbPartID(rs.getString("RBPartID"));
 			baseInfoDetail.setPartName(rs.getString("PartName"));
 			baseInfoDetail.setPartSubtitle(rs.getString("PartSubtitle"));
 			baseInfoDetail.setOrdinaryPrice(rs.getString("OrdinaryPrice"));
@@ -70,6 +72,35 @@ public class BaseInfoDaoImpl implements BaseInfoDao {
 			e.printStackTrace();
 		}
 		return baseInfoDetail;
+	}
+
+
+	@Override
+	public List<BaseInfo> getListByPartCategoryName(String partCategoryName, PageEntity pageEntity) {
+
+		List<BaseInfo> baseInfoList = new ArrayList<>();
+		conn = DBPoolUtil.getConnection();
+		try {
+			cstmt = conn.prepareCall("{call spPortalBaseInfoByPartCategoryName(?,?,?)}");
+			cstmt.setString(1,partCategoryName);
+			cstmt.setInt(2,pageEntity.getStartRow());
+			cstmt.setInt(3,pageEntity.getPageSize());
+			rs = cstmt.executeQuery();
+			while(rs.next()) {
+				BaseInfo baseInfo = new BaseInfo();
+				baseInfo.setRbPartID(rs.getString("RBPartID"));
+				baseInfo.setPartName(rs.getString("PartName"));
+				baseInfo.setPartModel(rs.getString("PartModel"));
+				baseInfo.setPartSubtitle(rs.getString("PartSubtitle"));
+				baseInfo.setOrdinaryPrice(rs.getString("OrdinaryPrice"));
+				baseInfoList.add(baseInfo);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			DBPoolUtil.closeConnection(conn);
+		}
+		return baseInfoList;
 	}
 
 

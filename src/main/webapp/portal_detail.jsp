@@ -262,6 +262,8 @@
             <!--右侧商品详情介绍-->
             <div class="details mid_com fl">
                 <div class="s_f">
+                    <input style="display: none;" id="rbPartID" value="${baseInfoDetail.rbPartID}"/>
+
                     <div class="introduce">
                         <h3>${baseInfoDetail.partSubtitle}</h3>
                     </div>
@@ -271,10 +273,7 @@
                     </div>
                     <!--数量-->
                     <div class="number">
-                        已选<input type="text" class="num" />件
-                        <span class="">
-			    					限购9件
-			    				</span>
+                        已选<input type="text" id="count" class="num" />件
                     </div>
                     <!--购物车-->
                     <div class="shop_car">
@@ -326,20 +325,35 @@
         var rbID = $("#rbPartID").val();
         //购买数量
         var count = $("#count").val();
+        console.log(rbID);
+        console.log(count);
+
+
+
 
         $.ajax({
             type: "post",
-            url: "<%=path%>/customer/baseInfo/insertShoppingCart.do",
-            data : {
-                rbPartID:rbID,
-                count:count
-            },
+            url: "<%=path%>/customer/check.do",
             success: function (data) {
-                //添加成功
-                if (data.status === 0) {
-                    alert("添加成功！");
-                } else {
-                    alert("添加失败！");
+                if (data.status === 0 ) {
+                    $.ajax({
+                        url: "<%=path%>/customer/shopping_cart/insert.do",
+                        data : {
+                            rbBasePartID:rbID,
+                            count:count
+                        },
+                        success: function (data) {
+                            console.log(data)
+                            //添加成功
+                            if (data.status === 0) {
+                                alert(data.msg);
+                            } else {
+                                alert(data.msg);
+                            }
+                        }
+                    });
+                } else  {
+                    alert("请登录");
                 }
             }
         });

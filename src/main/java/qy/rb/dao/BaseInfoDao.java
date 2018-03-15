@@ -18,4 +18,12 @@ public interface BaseInfoDao {
 
 	public BaseInfoDetail getDetail(String rbPartID);
 
+	/**
+	 * 通过分类名字查询商品信息
+	 * @param partCategoryName
+	 * @param pageEntity
+	 * @return
+	 */
+	List<BaseInfo> getListByPartCategoryName(String partCategoryName,PageEntity pageEntity);
+
 }

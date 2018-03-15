@@ -19,5 +19,5 @@ public interface ShoppingCartService {
 	List<ShoppingCart> showShoppingCartByCustomerID(String customerID);
 
 
-
+	boolean checkShoppingCart(String rbBasePartID, String customerID);
 }

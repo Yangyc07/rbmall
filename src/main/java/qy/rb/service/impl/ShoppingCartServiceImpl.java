@@ -36,5 +36,10 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
 		return null;
 	}
 
+	@Override
+	public boolean checkShoppingCart(String rbBasePartID, String customerID) {
+		return shoppingCartDao.check(rbBasePartID,customerID);
+	}
+
 
 }
