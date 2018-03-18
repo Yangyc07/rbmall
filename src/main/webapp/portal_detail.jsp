@@ -325,12 +325,6 @@
         var rbID = $("#rbPartID").val();
         //购买数量
         var count = $("#count").val();
-        console.log(rbID);
-        console.log(count);
-
-
-
-
         $.ajax({
             type: "post",
             url: "<%=path%>/customer/check.do",

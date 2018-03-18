@@ -36,7 +36,6 @@ public class BaseInfoController {
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
-		System.out.println(partCategoryName);
 
 		PageEntity pageEntity = new PageEntity();
 		pageEntity.setPageNum(pageNum);

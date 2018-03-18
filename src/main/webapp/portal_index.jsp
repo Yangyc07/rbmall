@@ -1,7 +1,6 @@
-<!--<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@include file="common/tag.jsp"%>
 <%String path = request.getContextPath();%>
-<!DOCTYPE html>
 <html>
 <head>
     <title>左右侧菜单</title>
@@ -404,7 +403,7 @@
                     <li><a href="#">帐号</a></li>
                     <li><a href="#">首页</a></li>
                     <li><a href="#">购买历史</a></li>
-                    <li><a href="#">购物车</a></li>
+                    <li><a id="ShoppingCart">购物车</a></li>
                     <li><a href="#">配件分类</a></li>
                     <li><a href="#">客服</a></li>
                 </ul>
@@ -846,5 +845,24 @@
         }
     });
 </script>
+
+<script>
+    $("#ShoppingCart").click(function () {
+        $.ajax({
+            type: "post",
+            url: "<%=path%>/customer/check.do",
+            success: function (data) {
+                if (data.status === 0 ) {
+                    window.location.href="<%=path%>/customer/shopping_cart/show.do";
+                } else  {
+                    alert("请登录");
+                }
+            }
+        });
+    });
+</script>
+
+
+
 </body>
 </html>
